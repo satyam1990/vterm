@@ -38,11 +38,20 @@ int main()
 
 	// print next Mo's followed by root
 	Mo* next = root;
+    Mo* last = next;
 	while (next != NULL)
 	{
 		cout << "Name: " << next->getName() << endl;
+        last = next;
 		next = next->getChildMo();
 	}
+
+    // print MO's in reverse order
+    while (last != NULL)
+    {
+        cout << "Last MO: " << last->getName() << endl;
+        last = last->getParentMo();
+    }
 
 	XMLPlatformUtils::Terminate();
 
