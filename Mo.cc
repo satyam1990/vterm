@@ -63,6 +63,12 @@ Mo* Mo::getChildMo()
 	return mo;
 }
 
+// returns the child Mo as the name specified in argument (if any)
+Mo* Mo::getChildMoByName(string name)
+{
+    // TODO
+}
+
 // return parent Mo of this MO
 Mo* Mo::getParentMo()
 {

@@ -39,6 +39,9 @@ class Mo {
 		// returns the next MO immediately following this MO
 		Mo* getChildMo();
 
+        // returns the child Mo as the name specified in argument (if any)
+        Mo* getChildMoByName(string name);
+
 		// return parent Mo of this MO
 		Mo* getParentMo();
 

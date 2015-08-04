@@ -18,6 +18,8 @@
 #include "MoList.hh"
 #include "Mo.hh"
 #include "headers.hh"
+#include <sys/termios.h>
+#include <unistd.h>
 
 class Terminal {
 
@@ -31,15 +33,24 @@ class Terminal {
 		// represents the output of the command entered
 		string output;
 
+        // states whether config mode is on or off
+        bool configMode;
+
 		// our MO Tree
 		MoTree* ourMoTree;
 
 		// our current MO
 		Mo* currentMo;
 
+        // initial terminal settings
+        struct termios initial_settings;
+
 	public:
 		// initializes required stuff for our terminal
 		Terminal();
+
+        // logins the user to the NODE
+        bool login();
 
 		// main loop of our terminal which keeps on accepting user input
 		// processes it and displays desired results
@@ -62,14 +73,27 @@ class Terminal {
 		// key is pressed
 		void processBackspace();
 
-		// checks whether it is a non-MO commmand (like exit, up) etc.
-		bool isNonMoCommand();
+        // checks whether it is a special commmand 
+        // special commands for now are (end and up).
+		bool isSpecialCommand();
+
+        // handle special commands
+        void processSpecialCommand();
 
 		// handles non-MO commands
-		void processNonMoCommads();
+		void processNonMoCommand();
+
+        // handles mml command
+        void processMMLCommand();
 
 		// handles Interactive commands which requires further user input
 		void processInteractive();
+
+        // sets the terminal in non-canonical mode
+        void setTerminalAttributes();
+
+        // resets the terminal to its original state
+        void resetTerminalAttributes();
 
 		string getPrompt();
 
