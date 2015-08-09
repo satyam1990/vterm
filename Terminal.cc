@@ -16,49 +16,99 @@
 // initializes required stuff for our terminal
 Terminal::Terminal()
 {
-    // store the initial terminal settings
+	// set xml file name
+	xmlFile = DEFAULT_XML_FILE_NAME;
 
-    // make empty strings
+	// store the initial terminal settings
+	tcgetattr(fileno(stdin), &initial_settings);
 
-    // init MoTree
+	// make empty strings
+	prompt = "";
+	command = "";
+	output = "";
 
-    // init Mo
+	//config mode off by default
+	configMode = false;
+
+	// exit command false by default
+	isExitCommand = false;
+
+	// init MoTree
+	ourMoTree = new MoTree(xmlFile);
+
+	// init Mo
+	currentMo = ourMoTree->getRootMo();
 }
 
 // logins the user to the NODE
 bool Terminal::login()
 {
-    // Ask for USERCODE
+	string usercode, password;
 
-    // Ask for password
+	// Ask for USERCODE
+	cout << "USERCODE: ";
+	cin >> usercode;
 
-    // validate
-    
-    // if validated send header plus MML prompt
+	// Ask for password
+	cout << "Password: ";
+	cin >> password;
+
+	// validate and send header plus MML prompt
+	// also set the prompt value
+	if (usercode.compare("abc") == 0 &&
+		password.compare("abc") == 0)
+	{
+		prompt = MML_PROMPT;
+		cout << HEADER_AND_MML_PROMPT;
+	}
+	// exit if invalid login
+	else
+	{
+		cerr << "Invalid Login" << endl;
+		exit(1);
+	}
 }
 
 // main loop of our terminal which keeps on accepting user input
 // processes it and displays desired results
 void Terminal::main()
 {
-    // main loop
+	char ch;
 
-        // if at root Mo i.e. MML mode then
-            
-            // read line
+	// main loop
+	while (isExitCommand != true)
+	{
 
-            // processEnter
+		// if at root Mo i.e. MML mode then
+		if (currentMo->getName() == "MML")
+		{ 
+			// read line
+			cin >> command;
+
+			// processEnter
+			processEnter();
+		}
         
-        // else if in local mode then
+		// else if in local mode then
+		else
+		{
+			// read character
+			ch = getchar();
 
-            // read character
+			// processInput
+			processInput(ch);
+		}
 
-            // processInput
-
-        // if char is not TAB char then
-            // display prompt, command and output
-        // else processTab function will update 
-        // autocompleted command inline on the terminal
+		// if char is not TAB char then
+		if (ch != TAB && ch != BACKSPACE)
+		{
+			// display output and prompt
+			cout << output;
+			cout << prompt;
+		}
+		// else processTab function will update 
+		// autocompleted command inline on the terminal
+	}
 }
 
 // each input character is forwarded here for processing
@@ -66,19 +116,29 @@ void Terminal::main()
 // processing functions to call
 void Terminal::processInput(char c)
 {
-    // switch on character
-    
+	// switch on character
+	switch(c)
+	{
+		// backspace pressed
+		case BACKSPACE:
+			processBackspace();
+			break;
+		
+		// tab pressed
+		case TAB:
+			processTab();
+			break;
 
-        // backspace pressed
+		// enter  pressed
+		case ENTER:
+			processEnter();
+			break;
 
-        // carriage return pressed
-
-        // newline pressed
-
-        // tab pressed
-
-        // default
-            // append character to command string
+		// default
+		default:
+			// append character to command string
+			command += c;
+	}
 }
 
 // handles tab autocomplete functionality

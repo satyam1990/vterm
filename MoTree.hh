@@ -14,7 +14,7 @@
 #if !defined(MO_TREE_HH)
 #define MO_TREE_HH
 
-#define MO_FILE_NAME "data/mo.xml"
+#define MO_FILE_NAME "res/mo.xml"
 
 #include "Mo.hh"
 #include "MoList.hh"

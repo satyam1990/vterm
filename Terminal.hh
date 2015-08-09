@@ -14,6 +14,14 @@
 #if !defined(TERMINAL_HH)
 #define TERMINAL_HH
 
+#define DEFAULT_XML_FILE_NAME "res/mo.xml"
+#define HEADER_AND_MML_PROMPT "\03<"
+#define MML_PROMPT "\03<"
+#define APLOC_PROMPT "\03>"
+#define TAB '\t'
+#define BACKSPACE '\b'
+#define ENTER '\n'
+
 #include "MoTree.hh"
 #include "MoList.hh"
 #include "Mo.hh"
@@ -24,6 +32,9 @@
 class Terminal {
 
 	private:
+		// XML file name
+		string xmlFile;
+
 		// represents our terminal's prompt
 		string prompt;
 
@@ -33,8 +44,11 @@ class Terminal {
 		// represents the output of the command entered
 		string output;
 
-        // states whether config mode is on or off
-        bool configMode;
+		// states whether config mode is on or off
+		bool configMode;
+
+		// states whether user want to exit or not
+		bool isExitCommand;
 
 		// our MO Tree
 		MoTree* ourMoTree;
@@ -42,15 +56,15 @@ class Terminal {
 		// our current MO
 		Mo* currentMo;
 
-        // initial terminal settings
-        struct termios initial_settings;
+		// initial terminal settings
+		struct termios initial_settings;
 
 	public:
 		// initializes required stuff for our terminal
 		Terminal();
 
-        // logins the user to the NODE
-        bool login();
+		// logins the user to the NODE
+		bool login();
 
 		// main loop of our terminal which keeps on accepting user input
 		// processes it and displays desired results
@@ -73,27 +87,27 @@ class Terminal {
 		// key is pressed
 		void processBackspace();
 
-        // checks whether it is a special commmand 
-        // special commands for now are (end and up).
+		// checks whether it is a special commmand 
+		// special commands for now are (end and up).
 		bool isSpecialCommand();
 
-        // handle special commands
-        void processSpecialCommand();
+		// handle special commands
+		void processSpecialCommand();
 
 		// handles non-MO commands
 		void processNonMoCommand();
 
-        // handles mml command
-        void processMMLCommand();
+		// handles mml command
+		void processMMLCommand();
 
 		// handles Interactive commands which requires further user input
 		void processInteractive();
 
-        // sets the terminal in non-canonical mode
-        void setTerminalAttributes();
+		// sets the terminal in non-canonical mode
+		void setTerminalAttributes();
 
-        // resets the terminal to its original state
-        void resetTerminalAttributes();
+		// resets the terminal to its original state
+		void resetTerminalAttributes();
 
 		string getPrompt();
 

@@ -38,7 +38,7 @@ int main()
 
 	// print next Mo's followed by root
 	Mo* next = root;
-    Mo* last = next;
+	Mo* last = next;
 	while (next != NULL)
 	{
 		cout << "Name: " << next->getName() << endl;
@@ -46,12 +46,34 @@ int main()
 		next = next->getChildMo();
 	}
 
-    // print MO's in reverse order
-    while (last != NULL)
-    {
-        cout << "Last MO: " << last->getName() << endl;
-        last = last->getParentMo();
-    }
+	// print MO's in reverse order
+	while (last != NULL)
+	{
+		cout << "Last MO: " << last->getName() << endl;
+		last = last->getParentMo();
+	}
+
+	// print child Mo with name "second"
+	Mo* child = root->getChildMoByName("Second");
+	if (child != NULL)
+	{
+		cout << "child: " << child->getName() << endl;
+	}
+	else
+	{
+		cout << "No child with that name" << endl;
+	}
+
+	// search for Mo which is not a child of root
+	child = root->getChildMoByName("nameNotInXML");
+	if (child != NULL)
+	{
+		cout << "child: " << child->getName() << endl;
+	}
+	else
+	{
+		cout << "No child with that name" << endl;
+	}
 
 	XMLPlatformUtils::Terminate();
 
