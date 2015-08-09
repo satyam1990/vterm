@@ -72,6 +72,7 @@ Mo* MoTree::getRootMo()
 MoList* MoTree::getAllMos()
 {
 	// TODO
+	return NULL;
 }
 
 // returns MO with the Name specified

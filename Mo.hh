@@ -16,6 +16,7 @@
 #define MO_HH
 
 #include "MoList.hh"
+#include "Helper.hh"
 #include "headers.hh"
 
 class MoList;
@@ -39,8 +40,8 @@ class Mo {
 		// returns the next MO immediately following this MO
 		Mo* getChildMo();
 
-        // returns the child Mo as the name specified in argument (if any)
-        Mo* getChildMoByName(string name);
+		// returns the child Mo as the name specified in argument (if any)
+		Mo* getChildMoByName(string name);
 
 		// return parent Mo of this MO
 		Mo* getParentMo();

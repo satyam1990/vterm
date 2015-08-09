@@ -66,7 +66,26 @@ Mo* Mo::getChildMo()
 // returns the child Mo as the name specified in argument (if any)
 Mo* Mo::getChildMoByName(string name)
 {
-    // TODO
+	// Mo to return
+	Mo* matchedMo = NULL;
+
+	// get all child Mos
+	MoList *list = getChildMos();
+
+	// iterate over each Mo
+	for (int i = 0; i < list->getLength(); i++)
+	{
+		// compare Mo name with passed name ignoring case
+		// store if match found and break
+		if (Helper::equalsIgnoreCase(name, 
+				list->getMoAtIndex(i)->getName()))
+		{
+			matchedMo = list->getMoAtIndex(i);
+			break;
+		}
+	}
+
+	return matchedMo;
 }
 
 // return parent Mo of this MO
@@ -98,4 +117,5 @@ string Mo::getName()
 bool Mo::isInteractive()
 {
 	// TODO
+	return false;
 }
