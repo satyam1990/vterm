@@ -19,8 +19,9 @@
 #define MML_PROMPT "\03<"
 #define APLOC_PROMPT "\03>"
 #define TAB '\t'
-#define BACKSPACE '\b'
+#define BACKSPACE 127
 #define ENTER '\n'
+#define CR '\r'
 
 #include "MoTree.hh"
 #include "MoList.hh"
@@ -63,6 +64,9 @@ class Terminal {
 		// initializes required stuff for our terminal
 		Terminal();
 
+		// de-allocates necessary stuff
+		~Terminal();
+
 		// logins the user to the NODE
 		bool login();
 
@@ -102,6 +106,19 @@ class Terminal {
 
 		// handles Interactive commands which requires further user input
 		void processInteractive();
+
+		// handles variables processing
+		void processVariable();
+
+		// updates prompt of the terminal
+		void updatePrompt(string str);
+
+		// special command handlers
+		void processUp();
+		void processTop();
+		void processEnd();
+		void processShow();
+		void processMml();
 
 		// sets the terminal in non-canonical mode
 		void setTerminalAttributes();

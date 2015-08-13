@@ -29,8 +29,14 @@ class MoList {
 		List list;
 
 	public:
+		// creates an empty Mo list
+		MoList();
+
 		// create a list of MO's from DOMNodeList
 		MoList(DOMNodeList* list);
+
+		// appends Mo to the MoList
+		void add(Mo* mo);
 
 		// return MO at specified index
 		Mo* getMoAtIndex(size_t index);

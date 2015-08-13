@@ -16,6 +16,17 @@
 // initializes required stuff for our terminal
 Terminal::Terminal()
 {
+	
+	try
+	{	// init xerces XML Parser library
+		XMLPlatformUtils::Initialize();
+	}
+	catch (const XMLException& toCatch)
+	{
+		cout << toCatch.getMessage() << endl;
+		exit(1);
+	}
+
 	// set xml file name
 	xmlFile = DEFAULT_XML_FILE_NAME;
 
@@ -38,6 +49,12 @@ Terminal::Terminal()
 
 	// init Mo
 	currentMo = ourMoTree->getRootMo();
+}
+
+Terminal::~Terminal()
+{
+	// de-allocate xerces XML library resources
+	XMLPlatformUtils::Terminate();
 }
 
 // logins the user to the NODE
@@ -73,12 +90,11 @@ bool Terminal::login()
 // processes it and displays desired results
 void Terminal::main()
 {
-	char ch;
+	char ch = '\0';
 
 	// main loop
 	while (isExitCommand != true)
 	{
-
 		// if at root Mo i.e. MML mode then
 		if (currentMo->getName() == "MML")
 		{ 
@@ -87,6 +103,9 @@ void Terminal::main()
 
 			// processEnter
 			processEnter();
+		
+			// consume the extra enter
+			ch = getchar();
 		}
         
 		// else if in local mode then
@@ -100,15 +119,21 @@ void Terminal::main()
 		}
 
 		// if char is not TAB char then
-		if (ch != TAB && ch != BACKSPACE)
+		if (ch == ENTER)
 		{
 			// display output and prompt
-			cout << output;
-			cout << prompt;
+			cout << output << endl;
+			cout << prompt << flush;
+
+			// clean up the output buffer
+			output = "";
 		}
 		// else processTab function will update 
 		// autocompleted command inline on the terminal
 	}
+
+	// reset terminal attributes before exiting
+	resetTerminalAttributes();
 }
 
 // each input character is forwarded here for processing
@@ -144,16 +169,30 @@ void Terminal::processInput(char c)
 // handles tab autocomplete functionality
 void Terminal::processTab()
 {
-    // get all child Mo's starting with text in command
+	// get all child Mo's starting with text in command
+	MoList* list = currentMo->getChildMoNameStartsWith(command);
 
-    // if only one match is found then
-        
-        // update the command with this Mo Name
-        // complete the command inline
-        // by printing <CR> prompt <MoName>
-    // else many Mo's are begining with text in command then
+	// if only one match is found then
+	if (list->getLength() == 1)
+	{ 
+		// update the command with this only Mo Name in list
+		command = list->getMoAtIndex(0)->getName();
 
-        // then list each Mo in a newline
+		// complete the command inline
+		// by printing <CR(carriage return)> prompt updated command
+		cout << CR << prompt << command;
+	}
+	// else many Mo's are begining with text in command then
+	else
+	{
+		// then list each Mo in a newline
+		for (int i = 0; i < list->getLength(); i++)
+		{
+			cout << endl << list->getMoAtIndex(i)->getName();
+		}
+		// also print the prompt and typed command by user in newline
+		cout << endl << prompt << command;
+	}
 }
 
 // checks if a valid MO name is typed at the terminal,
@@ -161,123 +200,277 @@ void Terminal::processTab()
 // sets respective command output if MO also has a output associated with it
 void Terminal::processEnter()
 {
-    // if at root Mo then
-        
-        // processNonMoCommand 
-        // make command as empty string and return
+	// if at root Mo then
+	if (currentMo->getName() == "MML")
+	{
+		// processNonMoCommand
+		processNonMoCommand();
+		
+		// make command as empty string and return
+		command = "";
+		return;
+	}
 
-    // if a special command has came then
+	// if a special command has came then
+	if (isSpecialCommand())
+	{
+        	// call processSpecialCommand
+		processSpecialCommand();
+		
+		// make command as empty string and return
+		command = "";
+		return;
+	}
 
-        // call processSpecialCommand
+	// get child Mo of currentMo which has name as user 
+	// typed in command
+	Mo* newMo = currentMo->getChildMoByName(command);
 
-    // get child Mo of currentMo which has name as user 
-    // typed in command
     
-    // if Mo not found then 
-        // make command as empty string
-        // and set output as "ERROR: command not found."
-        // and return.
+	// if Mo not found then
+	if (newMo == NULL)
+	{
+		// make command as empty string
+		command = "";
 
-    // if found make currentMo as new Mo 
+		// and set output as "ERROR: command not found."
+		output = "ERROR: command not found.";
 
-    // if Mo is "configure" then
-    
-        // set config mode as true
-        // call update prompt with MoName as an argument
-    
-    // if Mo is a variable then
+		// and return.
+		return;
+	}
 
-        // call processVariable to update variable value
-        // switch back to parentMo i.e. make
-        // currentMo as currentMo->getParentMo
+	// when found make currentMo as new Mo
+	currentMo = newMo;
 
-    // else Mo not a variable then
+	// if Mo is "configure" then
+	if (currentMo->getName() == "configure")
+	{
+		// set config mode as true
+		configMode = true;
+	}
+	
+    	// if Mo is a variable then
+	if (currentMo->isVariable())
+	{
+		// call processVariable to update variable value
+		processVariable();
+		
+		// switch back to parentMo i.e. make
+		// currentMo as currentMo->getParentMo
+		currentMo = currentMo->getParentMo();
+	}
+	// else Mo not a variable then
+	else
+	{
+		// call update prompt with Mo name as argument
+		// which will updates the prompt according to the Mo
+		updatePrompt(currentMo->getName());
+	}
 
-        // shift currentMo to this new Mo
-        // call update prompt with Mo name as argument
-        // which will updates the prompt according to the Mo
-
-    // make command string as empty
+	// make command string as empty
+	command = "";
 }
 
 // removes one character from the end from our command when backspace 
 // key is pressed
 void Terminal::processBackspace()
 {
+	// remove one character from the prompt if typed
+	if (command.length() > 0)
+	{
+		command = command.substr(0, command.length() - 1);
+	}
+
+	// update the terminal
+	cout << CR << flush;
+	for (int i = 0; i < 50; i++)
+		cout << ' ' << flush;
+	cout << CR << prompt << command << flush;
 }
 
 // checks whether it is a special commmand 
 // special commands for now are as below:
-// (up, top, end, abort -s, abort, commit -s, commit, show).
+// (up, top, end, abort -s, abort, commit -s, commit, show, mml, exit;).
 // Special commands are those commands which are not defined in XML
 bool Terminal::isSpecialCommand()
 {
+	// special command list
+	string list[10] = {"up", "top", "end", "abort -s", "abort", "commit", "commit -s", "show" , "mml", "exit;"};
+
+	// check if user typed command is one of the special command
+	for (int i = 0; i < 10; i++)
+	{
+		if (list[i] == command)
+		{
+			return true;
+		}
+	}
+
+return false;
 }
 
 // handle special commands
-void processSpecialCommand()
+void Terminal::processSpecialCommand()
 {
-    // we at root Mo then
-
-        // make command as empty and
-        // set output as "ERRONEOUS command"
-
-    // call respective special command handler
+	// otherwise call respective special command handler
+	if (Helper::equalsIgnoreCase(command, "exit;"))
+	{
+		isExitCommand = true;
+	}
+	else if (command == "up")
+	{
+		processUp();
+	}
+	else if (command == "top")
+	{
+		processTop();
+	}
+	else if (command == "end")
+	{
+		processEnd();
+	}
+	else if (command == "show")
+	{
+		processShow();
+	}
+	else if (command == "mml")
+	{
+		processMml();
+	}
+	else
+	{
+		// special command handler not found
+		command = "";
+		output = "Special Command Handler not found :(";
+	}
 }
 
 // handles non-MO commands
 void Terminal::processNonMoCommand()
 {
-    // if is a special command then
+	// if is a special command then
+	if (isSpecialCommand())
+	{
+		// process special command
+		processSpecialCommand();
+	}
 
-        // process special command
-
-    // handle MML command
+	// handle MML command
+	processMMLCommand();
 }
         
 // handles mml command
-void processMMLCommand()
+void Terminal::processMMLCommand()
 {
-    // get all child Mo's and check with user typed Mo
-    // if match found then
+	// get child Mo having name as user gave in command
+	Mo* mo = currentMo->getChildMoByName(Helper::stripSemicolon(command));
 
-        // make currentMo as the matched Mo
-    // else 
+	// if match found then
+	if (mo != NULL)
+	{
+		// make currentMo as the matched Mo
+		currentMo = mo;
+	}
+	else
+	{
+		// set error message and return
+		output = "Invalid Command.";
+		return;
+	}
 
-        // set error message and return
+	// if Mo is APLOC Mo then
+	if (currentMo->getName() == "APLOC")
+	{
+		// make prompt as APLOC prompt
+		prompt = APLOC_PROMPT;
 
-    // if command is APLOC then
+		// set terminal to non-canonical mode and return
+		setTerminalAttributes();
+		return;
+	}
 
-        // make prompt as APLOC prompt
-        // return
-
-    // else if it is an interactive command then
-
-        // call processInteractive command
-        // then make currentMo back as parentMo
-
-    // else do below
+	// else if it is an interactive command then
+	// TODO
+		// call processInteractive command
+		// TODO
+	
+	// else do below
+	// TODO
   
-        // see if this node hastext containing filename
-        // then read the text which is a file name
-        // read the file content and set it in the output string
-        // then make currentMo back as parentMo
+		// see if this node hastext containing filename
+		// then read the text which is a file name
+		// read the file content and set it in the output string
+		// then make currentMo back as parentMo
+		// TODO
 }
 
 // handles Interactive commands which requires further user input
 void Terminal::processInteractive()
 {
-    // get command name and call respective method
+	// get command name and call respective method
+	// TODO
+}
+
+
+// handles variables processing
+void Terminal::processVariable()
+{
+	// TODO
+}
+
+// updates prompt of the terminal
+void Terminal::updatePrompt(string str)
+{
+	// TODO
+}
+
+// special command handlers
+void Terminal::processUp()
+{
+	// TODO
+}
+
+void Terminal::processTop()
+{
+	// TODO
+}
+
+void Terminal::processEnd()
+{
+	// TODO
+}
+
+void Terminal::processShow()
+{
+	// TODO
+}
+
+void Terminal::processMml()
+{
+	// TODO
 }
 
 // sets the terminal in non-canonical mode
 void Terminal::setTerminalAttributes()
 {
+	// get the initial attributes
+	struct termios new_settings = initial_settings;
+
+	// set the new attributes for non-canonical mode
+	new_settings.c_lflag &= ~(ICANON);
+	new_settings.c_cc[VMIN] = 1;
+	new_settings.c_cc[VTIME] = 0;
+
+	// set it
+	tcsetattr(fileno(stdin), TCSAFLUSH, &new_settings);
 }
 
 // resets the terminal to its original state
 void Terminal::resetTerminalAttributes()
 {
+	// set the terminal settings back to canonical mode
+	 tcsetattr(fileno(stdin), TCSAFLUSH, &initial_settings);
 }
 
 string Terminal::getPrompt()

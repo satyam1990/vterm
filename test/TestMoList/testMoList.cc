@@ -28,7 +28,8 @@ int main()
     }
 
     // create the base MoTree
-    MoTree* tree = new MoTree("../data/test.xml");
+    string xmlfile = "../data/test.xml";
+    MoTree* tree = new MoTree(xmlfile);
 
     // get the root Mo
     Mo* root = tree->getRootMo();

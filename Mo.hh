@@ -43,8 +43,17 @@ class Mo {
 		// returns the child Mo as the name specified in argument (if any)
 		Mo* getChildMoByName(string name);
 
+		// returns MoList of all Mo's whose name starts with
+		// the name given in arguments
+		MoList* getChildMoNameStartsWith(string name);
+
 		// return parent Mo of this MO
 		Mo* getParentMo();
+
+		// checks whether Mo is an variable like other Mo's for variables Mo's are
+		// one with which one value is associated which can be set by the user.
+		// Also variables won't have any child Mo's.
+		bool isVariable();
 
 		// returns name of this MO
 		string getName();

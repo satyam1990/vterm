@@ -1,5 +1,5 @@
 <MML>
-	<APLOC;>
+	<APLOC>
 		<configure>
 			<ManagedElement=1>
 				<ldap>
@@ -8,5 +8,5 @@
 				</secM>
 			</ManagedElement=1>
 		</configure>
-	</APLOC;>
+	</APLOC>
 </MML>

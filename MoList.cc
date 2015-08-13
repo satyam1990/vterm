@@ -13,6 +13,11 @@
 
 #include "MoList.hh"
 	
+// creates an empty Mo list
+MoList::MoList()
+{
+}
+
 // create a list of MO's from DOMNodeList
 MoList::MoList(DOMNodeList* list)
 {
@@ -28,6 +33,13 @@ MoList::MoList(DOMNodeList* list)
 			this->list.push_back(temp);
 		}
 	}
+}
+
+// appends Mo to the end of the MoList
+void MoList::add(Mo* mo)
+{
+	// add to list end
+	list.push_back(mo);
 }
 
 // return MO at specified index

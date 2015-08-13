@@ -25,6 +25,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <cstdio>
 
 // default namespace
 using namespace std;

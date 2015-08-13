@@ -37,14 +37,14 @@ MoTree::MoTree()
 }
 
 // loads XML files as specified in the argument
-MoTree::MoTree(const char* xmlFile)
+MoTree::MoTree(string xmlFile)
 {
 	parser = new XercesDOMParser();
 
 	// parse the default MO file
 	try
 	{
-		parser->parse(xmlFile);
+		parser->parse(xmlFile.c_str());
 	}
 	catch (const XMLException& ex)
 	{

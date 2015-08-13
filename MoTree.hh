@@ -37,7 +37,7 @@ class MoTree {
 		MoTree();
 
 		// loads XML files as specified in the argument
-		MoTree(const char* xmlFile);
+		MoTree(string xmlFile);
 
 		// returns root MO from the MO Tree
 		Mo* getRootMo();

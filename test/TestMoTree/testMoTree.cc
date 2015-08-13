@@ -25,8 +25,10 @@ int main()
 		cout << toCatch.getMessage() << endl;
 		return 1;
 	}
+	
+	string xmlfile = "../data/test.xml";
 
-	MoTree* tree = new MoTree("../data/test.xml");
+	MoTree* tree = new MoTree(xmlfile);
 
 	// get root MO and print its name
 	Mo* root = tree->getRootMo();

@@ -64,6 +64,7 @@ Mo* Mo::getChildMo()
 }
 
 // returns the child Mo as the name specified in argument (if any)
+// exact name should match
 Mo* Mo::getChildMoByName(string name)
 {
 	// Mo to return
@@ -88,6 +89,29 @@ Mo* Mo::getChildMoByName(string name)
 	return matchedMo;
 }
 
+// returns MoList of all child Mo's whose name starts with
+// the name given in arguments
+MoList* Mo::getChildMoNameStartsWith(string name)
+{
+	// to store new list which has matching Mos
+	MoList* matchingMoList = new MoList();
+
+	// get all child Mo's of the current Mo
+	MoList* list = getChildMos();
+
+	// check in child list which Mo has name starting
+	// with user typed name that is passed here as argument
+	for (int i = 0; i < list->getLength(); i++)
+	{
+		if (Helper::isStartingWith(name, list->getMoAtIndex(i)->getName()))
+		{
+			matchingMoList->add(list->getMoAtIndex(i));
+		}
+	}
+
+	return matchingMoList;
+}
+
 // return parent Mo of this MO
 Mo* Mo::getParentMo()
 {
@@ -105,6 +129,15 @@ Mo* Mo::getParentMo()
 	Mo* mo = new Mo(parent);
 
 	return mo;
+}
+		
+// checks whether Mo is an variable like other Mo's for variables Mo's are
+// one with which one value is associated which can be set by the user.
+// Also variables won't have any child Mo's.
+bool Mo::isVariable()
+{
+	// TODO
+	return false;
 }
 
 // returns name of this MO
