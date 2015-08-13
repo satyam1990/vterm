@@ -1,12 +1,12 @@
 <MML>
 	<APLOC>
 		<configure>
-			<ManagedElement=1>
+			<ManagedElement1>
 				<ldap>
 				</ldap>
 				<secM>
 				</secM>
-			</ManagedElement=1>
+			</ManagedElement1>
 		</configure>
 	</APLOC>
 </MML>

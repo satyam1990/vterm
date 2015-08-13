@@ -15,9 +15,9 @@
 #define TERMINAL_HH
 
 #define DEFAULT_XML_FILE_NAME "res/mo.xml"
-#define HEADER_AND_MML_PROMPT "\03<"
-#define MML_PROMPT "\03<"
-#define APLOC_PROMPT "\03>"
+#define HEADER_AND_MML_PROMPT "\03< "
+#define MML_PROMPT "\03< "
+#define APLOC_PROMPT "\03> "
 #define TAB '\t'
 #define BACKSPACE 127
 #define ENTER '\n'
