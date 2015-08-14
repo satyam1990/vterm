@@ -422,13 +422,56 @@ void Terminal::processVariable()
 // updates prompt of the terminal
 void Terminal::updatePrompt(string str)
 {
-	// TODO
+	// set config prompt for configure command
+	if (str == "configure")
+	{
+		prompt = string("(config)") + APLOC_PROMPT;
+	}
+
+	// got some other Mo name
+	else
+	{
+		// see if config mode is set then
+		if (configMode == true)
+		{
+			// append Mo name to config prompt
+			prompt = string("(config-") + str + string(")") + APLOC_PROMPT;
+		}
+		// else just set the Mo name as prompt
+		else
+		{
+			prompt = string("(") + str + string(")") + APLOC_PROMPT;
+		}
+	}
 }
 
 // special command handlers
 void Terminal::processUp()
 {
-	// TODO
+	// if already at APLOC Mo or configure Mo set error message
+	// and return
+	if (currentMo->getName() == "configure" ||
+		currentMo->getName() == "APLOC")
+	{
+		output = "Already at the root.";
+		return;
+	}
+
+	// also 'up' command can't run in MML mode
+	// thus set separate error and return
+	if (currentMo->getName() == "MML")
+	{
+		output = "Invalid Command.";
+		return;
+	}
+	
+	// set error and return
+	// get the parent Mo and shift to it
+	Mo *parent = currentMo->getParentMo();
+	currentMo = parent;
+
+	// update the prompt accordingly
+	updatePrompt(currentMo->getName());
 }
 
 void Terminal::processTop()
