@@ -76,9 +76,9 @@ MoList* MoTree::getAllMos()
 }
 
 // returns MO with the Name specified
-Mo* MoTree::getMoByName(const char* name)
+Mo* MoTree::getMoByName(string name)
 {
-	DOMNodeList* list = root->getElementsByTagName(XMLString::transcode(name));
+	DOMNodeList* list = root->getElementsByTagName(XMLString::transcode(name.c_str()));
 
 	// most probably we have only one match thus for now returning first 
 	// element only which will be the only element with that name

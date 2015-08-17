@@ -46,6 +46,6 @@ class MoTree {
 		MoList* getAllMos();
 
 		// returns MO with the Name specified
-		Mo* getMoByName(const char* name);
+		Mo* getMoByName(string name);
 };
 #endif

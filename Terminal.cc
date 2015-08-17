@@ -45,10 +45,10 @@ Terminal::Terminal()
 	isExitCommand = false;
 
 	// init MoTree
-	ourMoTree = new MoTree(xmlFile);
+	currentMoTree = new MoTree(xmlFile);
 
 	// init Mo
-	currentMo = ourMoTree->getRootMo();
+	currentMo = currentMoTree->getRootMo();
 }
 
 Terminal::~Terminal()
@@ -200,22 +200,25 @@ void Terminal::processTab()
 // sets respective command output if MO also has a output associated with it
 void Terminal::processEnter()
 {
-	// if at root Mo then
-	if (currentMo->getName() == "MML")
-	{
-		// processNonMoCommand
-		processNonMoCommand();
-		
-		// make command as empty string and return
-		command = "";
-		return;
-	}
+	// strip semi-colon from the command
+	command = Helper::stripSemicolon(command);
 
 	// if a special command has came then
 	if (isSpecialCommand())
 	{
         	// call processSpecialCommand
 		processSpecialCommand();
+		
+		// make command as empty string and return
+		command = "";
+		return;
+	}
+
+	// if at root Mo then
+	if (currentMo->getName() == "MML")
+	{
+		// processNonMoCommand
+		processMMLCommand();
 		
 		// make command as empty string and return
 		command = "";
@@ -296,7 +299,7 @@ void Terminal::processBackspace()
 bool Terminal::isSpecialCommand()
 {
 	// special command list
-	string list[10] = {"up", "top", "end", "abort -s", "abort", "commit", "commit -s", "show" , "mml", "exit;"};
+	string list[10] = {"up", "top", "end", "abort -s", "abort", "commit", "commit -s", "show" , "mml", "quit"};
 
 	// check if user typed command is one of the special command
 	for (int i = 0; i < 10; i++)
@@ -314,9 +317,12 @@ return false;
 void Terminal::processSpecialCommand()
 {
 	// otherwise call respective special command handler
-	if (Helper::equalsIgnoreCase(command, "exit;"))
+	if (Helper::equalsIgnoreCase(command, "quit"))
 	{
 		isExitCommand = true;
+		
+		// empty the prompt
+		prompt = "";
 	}
 	else if (command == "up")
 	{
@@ -346,25 +352,11 @@ void Terminal::processSpecialCommand()
 	}
 }
 
-// handles non-MO commands
-void Terminal::processNonMoCommand()
-{
-	// if is a special command then
-	if (isSpecialCommand())
-	{
-		// process special command
-		processSpecialCommand();
-	}
-
-	// handle MML command
-	processMMLCommand();
-}
-        
 // handles mml command
 void Terminal::processMMLCommand()
 {
 	// get child Mo having name as user gave in command
-	Mo* mo = currentMo->getChildMoByName(Helper::stripSemicolon(command));
+	Mo* mo = currentMo->getChildMoByName(command);
 
 	// if match found then
 	if (mo != NULL)
@@ -428,6 +420,18 @@ void Terminal::updatePrompt(string str)
 		prompt = string("(config)") + APLOC_PROMPT;
 	}
 
+	// mml mode
+	else if (currentMo->getName() == "MML")
+	{
+		prompt = str;
+	}
+
+	// APLOC mode
+	else if (currentMo->getName() == "APLOC")
+	{
+		prompt = str;
+	}
+
 	// got some other Mo name
 	else
 	{
@@ -481,7 +485,21 @@ void Terminal::processTop()
 
 void Terminal::processEnd()
 {
-	// TODO
+	// show error if at MML Mo and return
+	if (currentMo->getName() == "MML")
+	{
+		output = "Error: Invalid Command.";
+		return;
+	}
+	
+	// get the APLOC Mo and set it as current Mo
+	currentMo = currentMoTree->getMoByName("APLOC");
+
+	// disable config mode
+	configMode = false;
+
+	// update the prompt
+	updatePrompt(APLOC_PROMPT);
 }
 
 void Terminal::processShow()
@@ -491,7 +509,21 @@ void Terminal::processShow()
 
 void Terminal::processMml()
 {
-	// TODO
+	// set error message if not at APLOC Mo and return
+	if (currentMo->getName() != "APLOC")
+	{
+		output = "Error: Invalid command";
+		return;
+	}
+
+	// shift the Mo to MML
+	currentMo = currentMo->getParentMo();
+
+	// reset terminal attributes to canonical mode
+	resetTerminalAttributes();
+
+	// update the prompt
+	updatePrompt(MML_PROMPT);
 }
 
 // sets the terminal in non-canonical mode

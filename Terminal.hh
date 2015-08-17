@@ -52,7 +52,7 @@ class Terminal {
 		bool isExitCommand;
 
 		// our MO Tree
-		MoTree* ourMoTree;
+		MoTree* currentMoTree;
 
 		// our current MO
 		Mo* currentMo;
@@ -97,9 +97,6 @@ class Terminal {
 
 		// handle special commands
 		void processSpecialCommand();
-
-		// handles non-MO commands
-		void processNonMoCommand();
 
 		// handles mml command
 		void processMMLCommand();

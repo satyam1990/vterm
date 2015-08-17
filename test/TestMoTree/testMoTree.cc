@@ -35,6 +35,11 @@ int main()
 
 	cout << "Root MO Name: " << root->getName() << endl;
 
+	// get MO by name
+	Mo* inner_one = tree->getMoByName("inner_one");
+
+	cout << "Mo Name: " << inner_one->getName() << endl;
+
 	XMLPlatformUtils::Terminate();
 
 	return 0;
