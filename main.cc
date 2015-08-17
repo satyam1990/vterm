@@ -18,10 +18,11 @@ int main()
 	Terminal term;
 
 	// login the user
-	term.login();
-
-	// listen for user requests
-	term.main();
+	if (term.login() == true)
+	{
+		// listen for user requests
+		term.main();
+	}
 
 return 0;
 }

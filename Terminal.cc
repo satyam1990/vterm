@@ -82,8 +82,10 @@ bool Terminal::login()
 	else
 	{
 		cerr << "Invalid Login" << endl;
-		exit(1);
+		return false;
 	}
+
+return true;
 }
 
 // main loop of our terminal which keeps on accepting user input
