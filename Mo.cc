@@ -14,13 +14,13 @@
 #include "Mo.hh"
 
 // creates a MO with the specified Node of the XML file
-Mo::Mo(DOMNode* ourMo)
+Mo::Mo(DOMNode* node)
 {
-	this->ourMo = ourMo;
+	this->ourMo = node;
 
-	if (ourMo != NULL)
+	if (node != NULL)
 	{
-		name = XMLString::transcode(ourMo->getNodeName());
+		name = XMLString::transcode(node->getNodeName());
 	}
 }
 
@@ -65,7 +65,7 @@ Mo* Mo::getChildMo()
 
 // returns the child Mo as the name specified in argument (if any)
 // exact name should match
-Mo* Mo::getChildMoByName(string name)
+Mo* Mo::getChildMoByName(string moName)
 {
 	// Mo to return
 	Mo* matchedMo = NULL;
@@ -78,7 +78,7 @@ Mo* Mo::getChildMoByName(string name)
 	{
 		// compare Mo name with passed name ignoring case
 		// store if match found and break
-		if (Helper::equalsIgnoreCase(name, 
+		if (Helper::equalsIgnoreCase(moName, 
 				list->getMoAtIndex(i)->getName()))
 		{
 			matchedMo = list->getMoAtIndex(i);
@@ -91,7 +91,7 @@ Mo* Mo::getChildMoByName(string name)
 
 // returns MoList of all child Mo's whose name starts with
 // the name given in arguments
-MoList* Mo::getChildMoNameStartsWith(string name)
+MoList* Mo::getChildMoNameStartsWith(string moName)
 {
 	// to store new list which has matching Mos
 	MoList* matchingMoList = new MoList();
@@ -103,7 +103,7 @@ MoList* Mo::getChildMoNameStartsWith(string name)
 	// with user typed name that is passed here as argument
 	for (int i = 0; i < list->getLength(); i++)
 	{
-		if (Helper::isStartingWith(name, list->getMoAtIndex(i)->getName()))
+		if (Helper::isStartingWith(moName, list->getMoAtIndex(i)->getName()))
 		{
 			matchingMoList->add(list->getMoAtIndex(i));
 		}

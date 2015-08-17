@@ -19,16 +19,16 @@ MoList::MoList()
 }
 
 // create a list of MO's from DOMNodeList
-MoList::MoList(DOMNodeList* list)
+MoList::MoList(DOMNodeList* nodeList)
 {
 	Mo* temp;
 
 	// MO List consists of only ELEMENT_NODES
-	for (int i = 0; i < list->getLength(); i++)
+	for (int i = 0; i < nodeList->getLength(); i++)
 	{
-		if (list->item(i)->getNodeType() == DOMNode::ELEMENT_NODE)
+		if (nodeList->item(i)->getNodeType() == DOMNode::ELEMENT_NODE)
 		{
-			temp = new Mo(list->item(i));
+			temp = new Mo(nodeList->item(i));
 			
 			this->list.push_back(temp);
 		}
