@@ -13,29 +13,6 @@
 
 #include "MoTree.hh"
 
-// loads default XML file which represents MO's
-MoTree::MoTree()
-{
-	parser = new XercesDOMParser();
-
-	// parse the default MO file
-	try
-	{
-		parser->parse(MO_FILE_NAME);
-	}
-	catch (const XMLException& ex)
-	{
-		cerr << ex.getMessage() << endl;
-		exit(1);
-	}
-
-	// get the document
-	doc = parser->getDocument();
-
-	// get root element
-	root = doc->getDocumentElement();
-}
-
 // loads XML files as specified in the argument
 MoTree::MoTree(string xmlFile)
 {

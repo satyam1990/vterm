@@ -14,8 +14,6 @@
 #if !defined(MO_TREE_HH)
 #define MO_TREE_HH
 
-#define MO_FILE_NAME "res/mo.xml"
-
 #include "Mo.hh"
 #include "MoList.hh"
 #include "headers.hh"
@@ -33,9 +31,6 @@ class MoTree {
 		DOMElement* root;
 
 	public:
-		// loads default XML file which represents MO's
-		MoTree();
-
 		// loads XML files as specified in the argument
 		MoTree(string xmlFile);
 
