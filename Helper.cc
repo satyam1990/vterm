@@ -51,9 +51,29 @@ bool Helper::isStartingWith(string str1, string str2)
 	return true;
 }
 
-// strips semicolon from end of the string inline
-string Helper::stripSemicolon(string& str)
+// strip spaces and semi-colon from the command (if any)
+string Helper::strip(string& str)
 {
+	string temp = str;
+
+	// remove space from begining
+	for (int i = 0; (i < str.length()) && isspace(str[i]); i++)
+	{
+		temp = str.substr(i + 1 , string::npos);
+	}
+
+	// update the str
+	str = temp;
+
+	// remove space from end
+	for (int i = str.length() - 1; (i >= 0) && isspace(str[i]); i--)
+	{
+		temp = str.substr(0, str.length() - (str.length() - i));
+	}
+
+	// update the str
+	str = temp;
+
 	// see if last character is ';'
 	if ( str[str.length() - 1] == ';')
 	{

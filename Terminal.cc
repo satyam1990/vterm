@@ -49,6 +49,9 @@ Terminal::Terminal()
 
 	// init Mo
 	currentMo = currentMoTree->getRootMo();
+
+	// set terminal to non-canonical mode
+	setTerminalAttributes();
 }
 
 Terminal::~Terminal()
@@ -97,28 +100,11 @@ void Terminal::main()
 	// main loop
 	while (isExitCommand != true)
 	{
-		// if at root Mo i.e. MML mode then
-		if (currentMo->getName() == "MML")
-		{ 
-			// read line
-			cin >> command;
+		// read character
+		ch = getchar();
 
-			// processEnter
-			processEnter();
-		
-			// consume the extra enter
-			ch = getchar();
-		}
-        
-		// else if in local mode then
-		else
-		{
-			// read character
-			ch = getchar();
-
-			// processInput
-			processInput(ch);
-		}
+		// processInput
+		processInput(ch);
 
 		// if char is not TAB char then
 		if (ch == ENTER)
@@ -202,8 +188,14 @@ void Terminal::processTab()
 // sets respective command output if MO also has a output associated with it
 void Terminal::processEnter()
 {
-	// strip semi-colon from the command
-	command = Helper::stripSemicolon(command);
+	// strip spaces and semi-colon from the command (if any)
+	command = Helper::strip(command);
+	
+	// empty command then return right away
+	if (command.empty())
+	{
+		return;
+	}
 
 	// if a special command has came then
 	if (isSpecialCommand())
@@ -520,9 +512,6 @@ void Terminal::processMml()
 
 	// shift the Mo to MML
 	currentMo = currentMo->getParentMo();
-
-	// reset terminal attributes to canonical mode
-	resetTerminalAttributes();
 
 	// update the prompt
 	updatePrompt(MML_PROMPT);

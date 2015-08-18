@@ -23,6 +23,6 @@ class Helper {
 		// ignoring case
 		static bool isStartingWith(string str1, string str2);
 
-		// strips semicolon from end of the string inline
-		static string stripSemicolon(string& str);
+		// strip spaces and semi-colon from the command (if any)
+		static string strip(string& str);
 };
