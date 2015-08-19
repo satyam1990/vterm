@@ -50,8 +50,6 @@ Terminal::Terminal()
 	// init Mo
 	currentMo = currentMoTree->getRootMo();
 
-	// set terminal to non-canonical mode
-	setTerminalAttributes();
 }
 
 Terminal::~Terminal()
@@ -67,11 +65,17 @@ bool Terminal::login()
 
 	// Ask for USERCODE
 	cout << "USERCODE: ";
-	cin >> usercode;
+	getline(cin, usercode);
+
+	// clean up the string
+	Helper::strip(usercode);
 
 	// Ask for password
 	cout << "Password: ";
-	cin >> password;
+	getline(cin, password);
+	
+	// clean up the string
+	Helper::strip(password);
 
 	// validate and send header plus MML prompt
 	// also set the prompt value
@@ -88,7 +92,10 @@ bool Terminal::login()
 		return false;
 	}
 
-return true;
+	// set terminal to non-canonical mode
+	setTerminalAttributes();
+
+	return true;
 }
 
 // main loop of our terminal which keeps on accepting user input
@@ -134,6 +141,7 @@ void Terminal::processInput(char c)
 	{
 		// backspace pressed
 		case BACKSPACE:
+		case DELETE:
 			processBackspace();
 			break;
 		
@@ -151,12 +159,19 @@ void Terminal::processInput(char c)
 		default:
 			// append character to command string
 			command += c;
+			// we need to manually display characters
+			// to the user as we have made echo off in terminal
+			// attributes.
+			cout << c << flush;
 	}
 }
 
 // handles tab autocomplete functionality
 void Terminal::processTab()
 {
+	// strip spaces and semi-colon from the command (if any)
+	command = Helper::strip(command);
+
 	// get all child Mo's starting with text in command
 	MoList* list = currentMo->getChildMoNameStartsWith(command);
 
@@ -274,16 +289,14 @@ void Terminal::processEnter()
 void Terminal::processBackspace()
 {
 	// remove one character from the prompt if typed
+	// and update the command accordingly
 	if (command.length() > 0)
 	{
 		command = command.substr(0, command.length() - 1);
+	
+		// update the terminal
+		cout << '\b' << ' ' << '\b' << flush;
 	}
-
-	// update the terminal
-	cout << CR << flush;
-	for (int i = 0; i < 50; i++)
-		cout << ' ' << flush;
-	cout << CR << prompt << command << flush;
 }
 
 // checks whether it is a special commmand 
@@ -371,8 +384,6 @@ void Terminal::processMMLCommand()
 		// make prompt as APLOC prompt
 		prompt = APLOC_PROMPT;
 
-		// set terminal to non-canonical mode and return
-		setTerminalAttributes();
 		return;
 	}
 
@@ -524,12 +535,20 @@ void Terminal::setTerminalAttributes()
 	struct termios new_settings = initial_settings;
 
 	// set the new attributes for non-canonical mode
-	new_settings.c_lflag &= ~(ICANON);
+	new_settings.c_lflag &= ~(ICANON | ECHO);
 	new_settings.c_cc[VMIN] = 1;
 	new_settings.c_cc[VTIME] = 0;
 
 	// set it
-	tcsetattr(fileno(stdin), TCSAFLUSH, &new_settings);
+	if (tcsetattr(fileno(stdin), TCSAFLUSH, &new_settings))
+	{
+		cerr << "Error Setting Terminal Attributes:" << endl;
+
+		if (errno == ENOTTY)
+		{
+			cerr << "Not a terminal." << endl;
+		}
+	}
 }
 
 // resets the terminal to its original state

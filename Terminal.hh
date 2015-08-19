@@ -14,12 +14,13 @@
 #if !defined(TERMINAL_HH)
 #define TERMINAL_HH
 
-#define DEFAULT_XML_FILE_NAME "res/mo.xml"
+#define DEFAULT_XML_FILE_NAME "/home/msatyam/programming/cpp/xml/vterm/res/mo.xml"
 #define HEADER_AND_MML_PROMPT "\03< "
 #define MML_PROMPT "\03< "
 #define APLOC_PROMPT "\03> "
 #define TAB '\t'
-#define BACKSPACE 127
+#define BACKSPACE 8
+#define DELETE 127
 #define ENTER '\n'
 #define CR '\r'
 
@@ -29,6 +30,7 @@
 #include "headers.hh"
 #include <sys/termios.h>
 #include <unistd.h>
+#include <errno.h>
 
 class Terminal {
 
