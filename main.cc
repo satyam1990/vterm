@@ -12,10 +12,20 @@
 
 #include "Terminal.hh"
 
-int main()
+int main(int argc, char* argv[])
 {
+	// validate proper usage
+	if ( argc != 2)
+	{
+		cerr << "Usage: " << argv[0] << " <xml_file_name>" << endl;
+		exit(0);
+	}
+
+	// store the xml file name
+	string mo_xml_file = argv[1];
+
 	// our terminal
-	Terminal term;
+	Terminal term(mo_xml_file);
 
 	// login the user
 	if (term.login() == true)

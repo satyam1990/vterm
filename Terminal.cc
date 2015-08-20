@@ -14,7 +14,7 @@
 #include "Terminal.hh"
 
 // initializes required stuff for our terminal
-Terminal::Terminal()
+Terminal::Terminal(string mo_xml_file)
 {
 	
 	try
@@ -28,7 +28,7 @@ Terminal::Terminal()
 	}
 
 	// set xml file name
-	xmlFile = DEFAULT_XML_FILE_NAME;
+	xmlFile = mo_xml_file;
 
 	// store the initial terminal settings
 	tcgetattr(fileno(stdin), &initial_settings);
@@ -153,6 +153,8 @@ void Terminal::processInput(char c)
 		// enter  pressed
 		case ENTER:
 			processEnter();
+			// display newline character
+			cout << endl;
 			break;
 
 		// default

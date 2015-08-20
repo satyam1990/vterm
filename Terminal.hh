@@ -14,7 +14,6 @@
 #if !defined(TERMINAL_HH)
 #define TERMINAL_HH
 
-#define DEFAULT_XML_FILE_NAME "/home/msatyam/programming/cpp/xml/vterm/res/mo.xml"
 #define HEADER_AND_MML_PROMPT "\03< "
 #define MML_PROMPT "\03< "
 #define APLOC_PROMPT "\03> "
@@ -64,7 +63,7 @@ class Terminal {
 
 	public:
 		// initializes required stuff for our terminal
-		Terminal();
+		Terminal(string mo_xml_file = "");
 
 		// de-allocates necessary stuff
 		~Terminal();
