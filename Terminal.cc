@@ -113,6 +113,12 @@ void Terminal::main()
 		// processInput
 		processInput(ch);
 
+		// ignore characters below BACKSPACE
+		if (ch < BACKSPACE)
+		{
+			continue;
+		}
+
 		// if char is not TAB char then
 		if (ch == ENTER)
 		{
