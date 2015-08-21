@@ -51,8 +51,8 @@ bool Helper::isStartingWith(string str1, string str2)
 	return true;
 }
 
-// strip spaces and semi-colon from the command (if any)
-string Helper::strip(string& str)
+// strip spaces from begining and end of the string (if any)
+string Helper::stripSpace(string& str)
 {
 	string temp = str;
 
@@ -74,6 +74,11 @@ string Helper::strip(string& str)
 	// update the str
 	str = temp;
 
+	return str;
+}
+
+string Helper::stripSemicolon(string& str)
+{
 	// see if last character is ';'
 	if ( str[str.length() - 1] == ';')
 	{

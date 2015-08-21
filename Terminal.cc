@@ -68,14 +68,14 @@ bool Terminal::login()
 	getline(cin, usercode);
 
 	// clean up the string
-	Helper::strip(usercode);
+	Helper::stripSpace(usercode);
 
 	// Ask for password
 	cout << "Password: ";
 	getline(cin, password);
 	
 	// clean up the string
-	Helper::strip(password);
+	Helper::stripSpace(password);
 
 	// validate and send header plus MML prompt
 	// also set the prompt value
@@ -177,8 +177,8 @@ void Terminal::processInput(char c)
 // handles tab autocomplete functionality
 void Terminal::processTab()
 {
-	// strip spaces and semi-colon from the command (if any)
-	command = Helper::strip(command);
+	// strip spaces from the command (if any)
+	command = Helper::stripSpace(command);
 
 	// get all child Mo's starting with text in command
 	MoList* list = currentMo->getChildMoNameStartsWith(command);
@@ -211,8 +211,11 @@ void Terminal::processTab()
 // sets respective command output if MO also has a output associated with it
 void Terminal::processEnter()
 {
-	// strip spaces and semi-colon from the command (if any)
-	command = Helper::strip(command);
+	// strip spaces from the command (if any)
+	command = Helper::stripSpace(command);
+	
+	// strip semi-colon from command (if any)
+	command = Helper::stripSemicolon(command);
 	
 	// empty command then return right away
 	if (command.empty())

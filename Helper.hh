@@ -23,6 +23,9 @@ class Helper {
 		// ignoring case
 		static bool isStartingWith(string str1, string str2);
 
-		// strip spaces and semi-colon from the command (if any)
-		static string strip(string& str);
+		// strip spaces from the string
+		static string stripSpace(string& str);
+
+		// strip semi-colon from the end of the command
+		static string stripSemicolon(string& str);
 };
