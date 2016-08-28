@@ -10,3 +10,6 @@ CLASSES= MoTree.cc Mo.cc MoList.cc Helper.cc Terminal.cc
 
 default:
 	$(CC) $(DEBUG_FLAGS) -o vterm main.cc $(CLASSES) $(INCLUDE_DIRS) $(LIBS)
+
+clean:
+	rm -rf vterm
