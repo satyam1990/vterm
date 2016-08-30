@@ -35,10 +35,16 @@ class Response {
         // sets the promt
         void setPrompt(string p);
 
+        // true if exit command found, false otherwise
+        void setExit(bool b)
+
         // gets the output
         string getOutput();
 
         // gets the prompt
         string getPrompt();
+
+        // should terminal exit or not
+        bool doExit();
 };
 #endif
