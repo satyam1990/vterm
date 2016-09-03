@@ -22,8 +22,15 @@ class MMLProcessor {
         Response getResponse(string command);
 
         // handles MML to APLOC mode change
-        Response changeMode();
+        Response handleAPLOC();
 
         // handles exit command
         Response handleExit();
+
+        // validate command syntax
+        bool validateCommand(String command);
+
+        // reads the MML response from file and embeds into response object
+        Response processMML(string command);
 };
+#endif
