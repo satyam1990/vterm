@@ -16,28 +16,42 @@
 MMLResponse::MMLResponse()
 {
     delayedOutput = "";
+    isDelayed = false;
+    modeChanged = false;
 }
 
-// sets the autocompleted command
+// sets the delayed output
 void MMLResponse::setDelayedOutput(string a)
 {
     delayedOutput = a;
 }
 
-// true if command has a delayed output too, false otherwise
+// sets the delayed flag
 void MMLResponse::setDelayed(bool b)
 {
     isDelayed = b;
 }
 
-// gets the delayed command
+// sets the modeChanged flag
+void MMLResponse::setModeChanged(bool b)
+{
+    modeChanged = b;
+}
+
+// gets the delayed output
 string MMLResponse::getDelayedOutput()
 {
     return delayedOutput;
 }
 
-// gets the delayed flag
+// true if command has a delayed output too, false otherwise
 bool MMLResponse::isDelayed()
 {
     return isDelayed;
+}
+
+// true if user wants to shift to APLOC mode, false otherwise
+bool MMLResponse::isModeChanged()
+{
+    return modeChanged;
 }

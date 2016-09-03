@@ -24,20 +24,29 @@ class MMLResponse : public Response {
         // states whether autocompletion has been done or not
         bool isDelayed;
 
+        // states whether the user has requested to shift to APLOC mode
+        bool modeChanged;
+
     public:
         // intialize data members
         MMLResponse();
 
-        // sets the autocompleted command
+        // sets the delayed output
         void setDelayedOutput(string a);
 
-        // true if command has a delayed output too, false otherwise
+        // sets the delayed flag
         void setDelayed(bool b);
 
-        // gets the delayed command
+        // sets the modeChanged flag
+        void setModeChanged(bool b);
+
+        // gets the delayed output
         string getDelayedOutput();
 
-        // gets the delayed flag
+        // true if command has a delayed output too, false otherwise
         bool isDelayed();
+
+        // true if user wants to shift to APLOC mode, false otherwise
+        bool isModeChanged();
 };
 #endif
