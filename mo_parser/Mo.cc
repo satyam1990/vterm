@@ -4,7 +4,7 @@
  *
  * Author: mSatyam
  *
- * 2015, August
+ * 2016, September
  *
  * This class represents a single MO from a specific MO Tree one can say a
  * single NODE of a MO Tree XML file and opertions that can be perfomed on it.
@@ -12,6 +12,7 @@
  * ***************************************************************************/
 
 #include "Mo.hh"
+#include "MoList.hh"
 
 // creates a MO with the specified Node of the XML file
 Mo::Mo(DOMNode* node)

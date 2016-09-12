@@ -4,7 +4,7 @@
  *
  * Author: mSatyam
  *
- * 2015, August
+ * 2016, September
  *
  * This class represents a single MO from a specific MO Tree one can say a
  * single NODE of a MO Tree XML file and opertions that can be perfomed on it.
@@ -14,6 +14,11 @@
 
 #if !defined(MO_HH)
 #define MO_HH
+
+#include <string>
+#include <vector>
+
+using namespace std;
 
 #include "MoList.hh"
 #include "Helper.hh"

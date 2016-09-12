@@ -4,7 +4,7 @@
  *
  * Author: mSatyam
  *
- * 2015, August
+ * 2016, September
  *
  * This class provides a way to store and retreive ordered collection of MOS,
  * basically a wrapper to DOMNodeList.
@@ -16,7 +16,6 @@
 
 #include "Mo.hh"
 #include "xercesc.hh"
-#include <vector>
 
 class Mo;
 

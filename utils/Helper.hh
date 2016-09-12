@@ -13,6 +13,8 @@
 #include <cctype>
 #include <string>
 
+using namespace std;
+
 class Helper {
 
 	public:

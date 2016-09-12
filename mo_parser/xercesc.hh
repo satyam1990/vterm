@@ -22,5 +22,5 @@
 #include <xercesc/dom/DOMNodeList.hpp>
 
 // namespace for XML parsing
-using namespace xerces;
+using namespace xercesc;
 #endif

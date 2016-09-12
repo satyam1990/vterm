@@ -10,7 +10,7 @@
  *
  * ***************************************************************************/
 
-#include <headers.hh>
+#include <xercesc.hh>
 #include <MoTree.hh>
 #include <Mo.hh>
 
