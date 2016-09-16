@@ -4,7 +4,7 @@
  *
  * Author: mSatyam
  *
- * 2015, August
+ * 2016, September
  *
  * Represents our virtual terminal which accepts user input in non-canonical 
  * mode , processes it and displays desired output to the user.
@@ -157,6 +157,16 @@ void Terminal::processInput(char c)
 // and gets the output
 void Terminal::processCommand()
 {
+	if (mmlMode)
+	{
+		Response resp = mmlProcessor.getResponse(getCommand());
+	}
+	else
+	{
+		Response resp = aplocProcessor.getResponse(getCommand());
+	}
+
+	// process and display response
 }
 
 // removes one character from the end from our command when backspace 
