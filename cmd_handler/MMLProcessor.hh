@@ -32,5 +32,8 @@ class MMLProcessor {
 
         // reads the MML response from file and embeds into response object
         Response processMML(string command);
+
+		// gets the default MML prompt
+		string getDefaultPrompt();
 };
 #endif

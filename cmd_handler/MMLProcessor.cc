@@ -67,4 +67,10 @@ bool MMLProcessor::validateCommand(String command)
 Response MMLProcessor::processMML(string command)
 {
 
+} 
+
+// gets the default MML prompt
+string MMLProcessor::getDefaultPrompt()
+{
+	return MML_PROMPT;
 }
