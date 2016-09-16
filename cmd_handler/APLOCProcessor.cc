@@ -26,7 +26,14 @@ APLOCProcessor::APLOCProcessor(string mo_xml_file)
 	}
 
 	// set xml file name
-	xmlFile = mo_xml_file;
+	if (mo_xml_file.empty())
+	{
+		xmlFile = DEFAULT_MO_XML_FILE_PATH;
+	}
+	else
+	{
+		xmlFile = mo_xml_file;
+	}
 
 	// init MoTree
 	currentMoTree = new MoTree(xmlFile);

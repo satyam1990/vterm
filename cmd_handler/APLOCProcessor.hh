@@ -14,6 +14,7 @@
 #define APLOCPROCESSOR_HH
 
 #define APLOC_PROMPT "\03>"
+#define DEFAULT_MO_XML_FILE_PATH "./etc/mo.xml"
 
 #include <MoTree.hh>
 #include <MoList.hh>
