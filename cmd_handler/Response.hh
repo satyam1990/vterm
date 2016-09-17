@@ -13,6 +13,10 @@
 #if !defined(RESPONSE_HH)
 #define RESPONSE_HH
 
+#include <string>
+
+using namespace std;
+
 class Response {
 
     private:
@@ -36,7 +40,7 @@ class Response {
         void setPrompt(string p);
 
         // true if exit command found, false otherwise
-        void setExit(bool b)
+        void setExit(bool b);
 
         // gets the output
         string getOutput();

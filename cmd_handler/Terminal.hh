@@ -23,6 +23,12 @@
 #include <sys/termios.h>
 #include <unistd.h>
 #include <errno.h>
+#include <cstdio>
+
+#include "MMLProcessor.hh"
+#include "APLOCProcessor.hh"
+#include "MMLResponse.hh"
+#include "APLOCResponse.hh"
 
 class Terminal {
 
@@ -70,6 +76,9 @@ class Terminal {
 		// sends command for processing to respective processor
 		// and gets the output
 		void processCommand();
+
+		// processes response and displays output if any
+		void processAndDisplay(Response resp);
 
 		// removes one character from the end from our command when backspace 
 		// key is pressed

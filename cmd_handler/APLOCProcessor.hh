@@ -14,11 +14,16 @@
 #define APLOCPROCESSOR_HH
 
 #define APLOC_PROMPT "\03>"
+#define TAB '\t'
 #define DEFAULT_MO_XML_FILE_PATH "./etc/mo.xml"
+
+#include <sstream>
 
 #include <MoTree.hh>
 #include <MoList.hh>
 #include <Mo.hh>
+
+#include "APLOCResponse.hh"
 
 class APLOCProcessor {
     private:
@@ -40,6 +45,9 @@ class APLOCProcessor {
     public:
         // intialize the APLOCProcessor
         APLOCProcessor(string mo_xml_file = "");
+        
+        // de-allocates resources
+        ~APLOCProcessor();
 
         // returns response for an APLOC command
         Response getResponse(string command);

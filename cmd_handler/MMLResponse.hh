@@ -22,7 +22,7 @@ class MMLResponse : public Response {
         string delayedOutput;
 
         // states whether autocompletion has been done or not
-        bool isDelayed;
+        bool delayed;
 
         // states whether the user has requested to shift to APLOC mode
         bool modeChanged;

@@ -42,9 +42,6 @@ Terminal::Terminal(string mo_xml_file)
 
 Terminal::~Terminal()
 {
-	// de-allocate xerces XML library resources
-	XMLPlatformUtils::Terminate();
-
 	// free up the aploc and mml processor objects
 	delete aplocProcessor;
 	delete mmlProcessor;
@@ -157,16 +154,26 @@ void Terminal::processInput(char c)
 // and gets the output
 void Terminal::processCommand()
 {
-	if (mmlMode)
+    Response resp;
+
+	if (aplocMode)
 	{
-		Response resp = mmlProcessor.getResponse(getCommand());
+		resp = aplocProcessor->getResponse(getCommand());
 	}
 	else
 	{
-		Response resp = aplocProcessor.getResponse(getCommand());
+		resp = mmlProcessor->getResponse(getCommand());
 	}
 
 	// process and display response
+	processAndDisplay(resp);
+}
+
+// processes response and displays output if any
+void Terminal::processAndDisplay(Response resp)
+{
+	if (resp.doExit() && aplocMode == false)
+		isExitCommand = true;
 }
 
 // removes one character from the end from our command when backspace 

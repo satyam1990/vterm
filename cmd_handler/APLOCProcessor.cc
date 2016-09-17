@@ -78,7 +78,7 @@ Response APLOCProcessor::getResponse(string command)
 // handles TAB character autocompletion functionality
 Response APLOCProcessor::processTab(string command)
 {
-    Response resp;
+    APLOCResponse resp;
 
 	// get all child Mo's starting with text in command
 	MoList* list = currentMo->getChildMoNameStartsWith(command);
@@ -159,7 +159,7 @@ Response APLOCProcessor::handleNonMoCommand(string command)
 }
 
 // updates the APLOC commandline prompt w.r.t. MO name
-void APLOCProcessor::updatePrompt(string command)
+void APLOCProcessor::updatePrompt()
 {
 	// if Mo is "configure" then
 	if (currentMo->getName() == "configure")

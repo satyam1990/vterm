@@ -16,7 +16,7 @@
 MMLResponse::MMLResponse()
 {
     delayedOutput = "";
-    isDelayed = false;
+    delayed = false;
     modeChanged = false;
 }
 
@@ -29,7 +29,7 @@ void MMLResponse::setDelayedOutput(string a)
 // sets the delayed flag
 void MMLResponse::setDelayed(bool b)
 {
-    isDelayed = b;
+    delayed = b;
 }
 
 // sets the modeChanged flag
@@ -47,7 +47,7 @@ string MMLResponse::getDelayedOutput()
 // true if command has a delayed output too, false otherwise
 bool MMLResponse::isDelayed()
 {
-    return isDelayed;
+    return delayed;
 }
 
 // true if user wants to shift to APLOC mode, false otherwise

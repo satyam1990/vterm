@@ -15,6 +15,13 @@
 
 #define MML_PROMPT "\03<"
 
+#include <string>
+
+using namespace std;
+
+#include "MMLResponse.hh"
+#include "Helper.hh"
+
 class MMLProcessor {
     
     public:
@@ -28,7 +35,7 @@ class MMLProcessor {
         Response handleExit();
 
         // validate command syntax
-        bool validateCommand(String command);
+        bool validateCommand(string command);
 
         // reads the MML response from file and embeds into response object
         Response processMML(string command);

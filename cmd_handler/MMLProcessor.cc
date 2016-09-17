@@ -32,14 +32,14 @@ Response MMLProcessor::getResponse(string command)
 	}
 
 	// remove the semi-colon from the end of command now
-	command = stripSemicolon(command);
+	command = Helper::stripSemicolon(command);
 
 	if (command == "APLOC")
 		return handleAPLOC();
 	if (command == "EXIT")
 		return handleExit();
 
-	return processMML();
+	return processMML(command);
 
 }
 
@@ -58,9 +58,12 @@ Response MMLProcessor::handleExit()
 }
 
 // validate command syntax
-bool MMLProcessor::validateCommand(String command)
+bool MMLProcessor::validateCommand(string command)
 {
-
+	// commands ending with semi-colon are valid
+	if (command[command.length() - 1] == ';')
+		return true;
+	return false;
 }
 
 // reads the MML response from file and embeds into response object
