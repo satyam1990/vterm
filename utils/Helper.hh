@@ -10,6 +10,9 @@
  *
  * ***************************************************************************/
 
+#if !defined(HELPER_HH)
+#define HELPER_HH
+
 #include <cctype>
 #include <string>
 
@@ -31,3 +34,4 @@ class Helper {
 		// strip semi-colon from the end of the command
 		static string stripSemicolon(string& str);
 };
+#endif
