@@ -38,8 +38,8 @@ APLOCProcessor::APLOCProcessor(string mo_xml_file)
     // init MoTree
     currentMoTree = new MoTree(xmlFile);
 
-	// init Mo
-	currentMo = currentMoTree->getRootMo();
+    // init Mo
+    currentMo = currentMoTree->getRootMo();
 
     // set config mode as false initially
     configMode = false;
