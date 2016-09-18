@@ -15,28 +15,28 @@
 // intialize the APLOCProcessor
 APLOCProcessor::APLOCProcessor(string mo_xml_file)
 {
-	try
-	{	// init xerces XML Parser library
-		XMLPlatformUtils::Initialize();
-	}
-	catch (const XMLException& toCatch)
-	{
-		cout << toCatch.getMessage() << endl;
-		exit(1);
-	}
+    try
+    {	// init xerces XML Parser library
+        XMLPlatformUtils::Initialize();
+    }
+    catch (const XMLException& toCatch)
+    {
+        cout << toCatch.getMessage() << endl;
+        exit(1);
+    }
 
-	// set xml file name
-	if (mo_xml_file.empty())
-	{
-		xmlFile = DEFAULT_MO_XML_FILE_PATH;
-	}
-	else
-	{
-		xmlFile = mo_xml_file;
-	}
+    // set xml file name
+    if (mo_xml_file.empty())
+    {
+        xmlFile = DEFAULT_MO_XML_FILE_PATH;
+    }
+    else
+    {
+        xmlFile = mo_xml_file;
+    }
 
-	// init MoTree
-	currentMoTree = new MoTree(xmlFile);
+    // init MoTree
+    currentMoTree = new MoTree(xmlFile);
 
 	// init Mo
 	currentMo = currentMoTree->getRootMo();
@@ -80,35 +80,35 @@ Response APLOCProcessor::processTab(string command)
 {
     APLOCResponse resp;
 
-	// get all child Mo's starting with text in command
-	MoList* list = currentMo->getChildMoNameStartsWith(command);
+    // get all child Mo's starting with text in command
+    MoList* list = currentMo->getChildMoNameStartsWith(command);
 
-	// if only one match is found then
-	if (list->getLength() == 1)
-	{ 
-		// get the complete command
-		command = list->getMoAtIndex(0)->getName();
+    // if only one match is found then
+    if (list->getLength() == 1)
+    { 
+        // get the complete command
+        command = list->getMoAtIndex(0)->getName();
         
         // set the complete command in response
         resp.setAutoCompletedCommand(command);
 
         // set the prompt
         resp.setPrompt(prompt);
-	}
-	// else many Mo's are begining with text in command then
-	else
-	{
+    }
+    // else many Mo's are begining with text in command then
+    else
+    {
         stringstream out;
-		// then list each Mo in a newline
-		for (int i = 0; i < list->getLength(); i++)
-		{
-			out << endl << list->getMoAtIndex(i)->getName();
-		}
+        // then list each Mo in a newline
+        for (int i = 0; i < list->getLength(); i++)
+        {
+            out << endl << list->getMoAtIndex(i)->getName();
+        }
 
         // set the prompt and output
         resp.setPrompt(prompt);
         resp.setOutput(out.str());
-	}
+    }
 
     return resp;
 }
@@ -118,25 +118,25 @@ Response APLOCProcessor::processEnter(string command)
 {
     Response resp;
 
-	// get child Mo of currentMo which has name as user 
-	// typed in command
-	Mo* newMo = currentMo->getChildMoByName(command);
+    // get child Mo of currentMo which has name as user 
+    // typed in command
+    Mo* newMo = currentMo->getChildMoByName(command);
     
-	// if Mo not found then
-	if (newMo == NULL)
-	{
+    // if Mo not found then
+    if (newMo == NULL)
+    {
         // keep the old prompt intact no need to change
         resp.setPrompt(prompt);
 
-		// set error message as invalid MO entered
-		resp.setOutput("ERROR: MO not found.");
+        // set error message as invalid MO entered
+        resp.setOutput("ERROR: MO not found.");
 
-		// and return.
-		return resp;
-	}
+        // and return.
+        return resp;
+    }
 
-	// when found make currentMo as new Mo
-	currentMo = newMo;
+    // when found make currentMo as new Mo
+    currentMo = newMo;
 
     // update the prompt
     updatePrompt();
@@ -161,17 +161,17 @@ Response APLOCProcessor::handleNonMoCommand(string command)
 // updates the APLOC commandline prompt w.r.t. MO name
 void APLOCProcessor::updatePrompt()
 {
-	// if Mo is "configure" then
-	if (currentMo->getName() == "configure")
-	{
-		// set config mode as true
-		configMode = true;
+    // if Mo is "configure" then
+    if (currentMo->getName() == "configure")
+    {
+        // set config mode as true
+        configMode = true;
 
         // update the prompt
         prompt = string("(config)") + APLOC_PROMPT;
 
         return;
-	}
+    }
     else if (currentMo->getName() == "APLOC")
     {
         prompt = APLOC_PROMPT;
@@ -182,13 +182,13 @@ void APLOCProcessor::updatePrompt()
         // config mode is set then
         if (configMode)
         {
-			// append MO name to config prompt
-			prompt = string("(config-") + currentMo->getName() + string(")") + APLOC_PROMPT;
+            // append MO name to config prompt
+            prompt = string("(config-") + currentMo->getName() + string(")") + APLOC_PROMPT;
         }
         else
         {
             // just set MO name as prompt
-			prompt = string("(") + currentMo->getName() + string(")") + APLOC_PROMPT;
+            prompt = string("(") + currentMo->getName() + string(")") + APLOC_PROMPT;
         }
     }
 }

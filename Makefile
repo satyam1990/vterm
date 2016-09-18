@@ -15,7 +15,6 @@ OBJS := $(addsuffix /objs/*.o, $(DIRS))
 $(BINDIR)/vterm: subdirs | $(BINDIR)
 	$(CXX) -o $@ main.cc $(OBJS) $(INCLUDES) $(LIBS)
 	@echo -e "\nCompilation Successful!"
-	
 
 subdirs:
 	@for dir in $(DIRS); do \
@@ -31,4 +30,3 @@ $(BINDIR):
 clean:
 	$(foreach dir, $(DIRS), cd $(dir); make clean; cd ..;)
 	rm -rf $(BINDIR)
-

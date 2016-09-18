@@ -4,7 +4,7 @@
  *
  * Author: mSatyam
  *
- * August, 2015
+ * September, 2016
  *
  * Starting point of the vterm application.
  *
