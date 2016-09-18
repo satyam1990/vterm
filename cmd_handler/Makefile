@@ -1,9 +1,9 @@
-CXX = g++
+CXX := g++
 
-INCLUDES = -I ../mo_parser \
+INCLUDES := -I ../mo_parser \
 			-I ../utils
 
-OBJDIR := OBJS
+OBJDIR := objs
 
 OBJS :=  $(addprefix $(OBJDIR)/, Terminal.o MMLProcessor.o APLOCProcessor.o \
 		Response.o MMLResponse.o APLOCResponse.o)
@@ -42,3 +42,7 @@ $(OBJDIR)/APLOCResponse.o: APLOCResponse.cc APLOCResponse.hh Response.hh
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
+
+.PHONY: clean
+clean:
+	rm -rf $(OBJDIR)

@@ -1,6 +1,6 @@
 CXX := g++
 
-OBJDIR := OBJS
+OBJDIR := objs
 
 OBJS:= $(addprefix $(OBJDIR)/, Helper.o)
 
@@ -13,3 +13,7 @@ $(OBJDIR)/Helper.o: Helper.cc Helper.hh
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
+
+.PHONY: clean
+clean:
+	rm -rf $(OBJDIR)
