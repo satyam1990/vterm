@@ -46,6 +46,8 @@ Response MMLProcessor::getResponse(string command)
 // handles MML to APLOC mode change
 Response MMLProcessor::handleAPLOC()
 {
+	Response resp;
+	return resp;
 }
 
 // handles exit command
@@ -69,7 +71,8 @@ bool MMLProcessor::validateCommand(string command)
 // reads the MML response from file and embeds into response object
 Response MMLProcessor::processMML(string command)
 {
-
+	Response resp;
+	return resp;
 } 
 
 // gets the default MML prompt

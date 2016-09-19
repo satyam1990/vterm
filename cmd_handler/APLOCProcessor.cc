@@ -151,11 +151,14 @@ Response APLOCProcessor::processEnter(string command)
 // from non-MO command list
 bool APLOCProcessor::isNonMoCommand(string command)
 {
+	return false;
 }
 
 // handles non-MO commands
 Response APLOCProcessor::handleNonMoCommand(string command)
 {
+	Response resp;
+	return resp;
 }
 
 // updates the APLOC commandline prompt w.r.t. MO name
