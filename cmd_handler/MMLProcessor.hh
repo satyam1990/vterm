@@ -13,7 +13,7 @@
 #if !defined(MMLPROCESSOR_HH)
 #define MMLPROCESSOR_HH
 
-#define MML_PROMPT "\03<"
+#define MML_PROMPT "\03< "
 
 #include <string>
 
@@ -26,19 +26,19 @@ class MMLProcessor {
     
     public:
         // returns response of MML command
-        Response getResponse(string command);
+        MMLResponse getResponse(string command);
 
         // handles MML to APLOC mode change
-        Response handleAPLOC();
+        MMLResponse handleAPLOC();
 
         // handles exit command
-        Response handleExit();
+        MMLResponse handleExit();
 
         // validate command syntax
         bool validateCommand(string command);
 
         // reads the MML response from file and embeds into response object
-        Response processMML(string command);
+        MMLResponse processMML(string command);
 
 		// gets the default MML prompt
 		string getDefaultPrompt();

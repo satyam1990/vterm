@@ -13,7 +13,7 @@
 #include "MMLProcessor.hh"
 
 // returns response of MML command
-Response MMLProcessor::getResponse(string command)
+MMLResponse MMLProcessor::getResponse(string command)
 {
 	// clean up the command string
 	command = Helper::stripSpace(command);
@@ -44,14 +44,18 @@ Response MMLProcessor::getResponse(string command)
 }
 
 // handles MML to APLOC mode change
-Response MMLProcessor::handleAPLOC()
+MMLResponse MMLProcessor::handleAPLOC()
 {
-	Response resp;
+	MMLResponse resp;
+
+	// shift to aploc mode
+	resp.setModeChanged(true);
+
 	return resp;
 }
 
 // handles exit command
-Response MMLProcessor::handleExit()
+MMLResponse MMLProcessor::handleExit()
 {
 	MMLResponse resp;
 	resp.setExit(true);
@@ -69,9 +73,9 @@ bool MMLProcessor::validateCommand(string command)
 }
 
 // reads the MML response from file and embeds into response object
-Response MMLProcessor::processMML(string command)
+MMLResponse MMLProcessor::processMML(string command)
 {
-	Response resp;
+	MMLResponse resp;
 	return resp;
 } 
 

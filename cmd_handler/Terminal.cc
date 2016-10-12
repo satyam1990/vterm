@@ -135,8 +135,6 @@ void Terminal::processInput(char c)
 		// enter  pressed
 		case ENTER:
 			processCommand();
-			// display newline character
-			cout << endl;
 			break;
 
 		// default
@@ -154,26 +152,40 @@ void Terminal::processInput(char c)
 // and gets the output
 void Terminal::processCommand()
 {
-    Response resp;
-
 	if (aplocMode)
 	{
-		resp = aplocProcessor->getResponse(getCommand());
+		APLOCResponse resp = aplocProcessor->getResponse(getCommand());
+		
+		// process and display response
+		processAndDisplay(resp);
 	}
 	else
 	{
-		resp = mmlProcessor->getResponse(getCommand());
-	}
+		MMLResponse resp = mmlProcessor->getResponse(getCommand());
 
-	// process and display response
-	processAndDisplay(resp);
+		// process and display response
+		processAndDisplay(resp);
+	}
 }
 
-// processes response and displays output if any
-void Terminal::processAndDisplay(Response resp)
+// processes response and displays output if any for MML commands
+void Terminal::processAndDisplay(MMLResponse resp)
 {
 	if (resp.doExit() && aplocMode == false)
 		isExitCommand = true;
+
+	// shift from MML to APLOC mode
+	if (resp.isModeChanged())
+	{
+		aplocMode = true;
+		cout << endl << aplocProcessor->getDefaultPrompt();
+	}
+}
+
+// processes response and displays output if any for APLOC commands
+void Terminal::processAndDisplay(APLOCResponse resp)
+{
+	
 }
 
 // removes one character from the end from our command when backspace 

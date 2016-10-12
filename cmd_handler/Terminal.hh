@@ -77,8 +77,11 @@ class Terminal {
 		// and gets the output
 		void processCommand();
 
-		// processes response and displays output if any
-		void processAndDisplay(Response resp);
+		// processes response and displays output if any for MML commands
+		void processAndDisplay(MMLResponse resp);
+
+		// processes response and displays output if any for APLOC commands
+		void processAndDisplay(APLOCResponse resp);
 
 		// removes one character from the end from our command when backspace 
 		// key is pressed

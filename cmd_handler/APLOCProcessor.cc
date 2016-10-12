@@ -55,9 +55,9 @@ APLOCProcessor::~APLOCProcessor()
 }
 
 // returns response for an APLOC command
-Response APLOCProcessor::getResponse(string command)
+APLOCResponse APLOCProcessor::getResponse(string command)
 {
-    Response resp;
+    APLOCResponse resp;
 
     // do autocompletion if it's a TAB appended command
     if (command[command.length() - 1] == TAB)
@@ -76,7 +76,7 @@ Response APLOCProcessor::getResponse(string command)
 }
 
 // handles TAB character autocompletion functionality
-Response APLOCProcessor::processTab(string command)
+APLOCResponse APLOCProcessor::processTab(string command)
 {
     APLOCResponse resp;
 
@@ -114,9 +114,9 @@ Response APLOCProcessor::processTab(string command)
 }
 
 // handles complete commands i.e. commands ending with ENTER key
-Response APLOCProcessor::processEnter(string command)
+APLOCResponse APLOCProcessor::processEnter(string command)
 {
-    Response resp;
+    APLOCResponse resp;
 
     // get child Mo of currentMo which has name as user 
     // typed in command
@@ -155,9 +155,9 @@ bool APLOCProcessor::isNonMoCommand(string command)
 }
 
 // handles non-MO commands
-Response APLOCProcessor::handleNonMoCommand(string command)
+APLOCResponse APLOCProcessor::handleNonMoCommand(string command)
 {
-	Response resp;
+	APLOCResponse resp;
 	return resp;
 }
 
@@ -194,4 +194,9 @@ void APLOCProcessor::updatePrompt()
             prompt = string("(") + currentMo->getName() + string(")") + APLOC_PROMPT;
         }
     }
+}
+
+string APLOCProcessor::getDefaultPrompt()
+{
+    return APLOC_PROMPT;
 }

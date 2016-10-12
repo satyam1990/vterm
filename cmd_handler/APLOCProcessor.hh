@@ -13,7 +13,7 @@
 #if !defined(APLOCPROCESSOR_HH)
 #define APLOCPROCESSOR_HH
 
-#define APLOC_PROMPT "\03>"
+#define APLOC_PROMPT "\03> "
 #define TAB '\t'
 #define DEFAULT_MO_XML_FILE_PATH "./etc/mo.xml"
 
@@ -50,22 +50,24 @@ class APLOCProcessor {
         ~APLOCProcessor();
 
         // returns response for an APLOC command
-        Response getResponse(string command);
+        APLOCResponse getResponse(string command);
 
         // handles TAB character autocompletion functionality
-        Response processTab(string command);
+        APLOCResponse processTab(string command);
 
         // handles complete commands i.e. commands ending with ENTER key
-        Response processEnter(string command);
+        APLOCResponse processEnter(string command);
 
         // checks whether the command is a non-MO command or not
         // from non-MO command list
         bool isNonMoCommand(string command);
 
         // handles non-MO commands
-        Response handleNonMoCommand(string command);
+        APLOCResponse handleNonMoCommand(string command);
 
         // updates the APLOC commandline prompt w.r.t. MO name
         void updatePrompt();
+
+        string getDefaultPrompt();
 };
 #endif
