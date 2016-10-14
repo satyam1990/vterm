@@ -93,6 +93,10 @@ class Terminal {
 		// resets the terminal to its original state
 		void resetTerminalAttributes();
 
+		// gets the command entered by user
 		string getCommand();
+
+		// set the command programatically if required
+		void setCommand(string cmd);
 };
 #endif

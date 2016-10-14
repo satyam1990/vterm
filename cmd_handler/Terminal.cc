@@ -166,6 +166,9 @@ void Terminal::processCommand()
 		// process and display response
 		processAndDisplay(resp);
 	}
+
+	// clean up the command
+	setCommand("");
 }
 
 // processes response and displays output if any for MML commands
@@ -179,13 +182,34 @@ void Terminal::processAndDisplay(MMLResponse resp)
 	{
 		aplocMode = true;
 		cout << endl << aplocProcessor->getDefaultPrompt();
+		return;
 	}
+
+	// print output if available
+	if (resp.getOutput() != "")
+		cout << endl << resp.getOutput();
+
+	// print the prompt
+	cout << endl << resp.getPrompt();
 }
 
 // processes response and displays output if any for APLOC commands
 void Terminal::processAndDisplay(APLOCResponse resp)
 {
-	
+	// exit from APLOC mode and shift to MML mode
+	if (resp.doExit())
+	{
+		aplocMode = false;
+		cout << endl << mmlProcessor->getDefaultPrompt();
+		return;
+	}
+
+	// print output if available
+	if (resp.getOutput() != "")
+		cout << endl << resp.getOutput();
+
+	// print the prompt
+	cout << endl << resp.getPrompt();
 }
 
 // removes one character from the end from our command when backspace 
@@ -233,7 +257,14 @@ void Terminal::resetTerminalAttributes()
 	 tcsetattr(fileno(stdin), TCSAFLUSH, &initial_settings);
 }
 
+// gets the command entered by user
 string Terminal::getCommand()
 {
     return command;
+}
+
+// set the command programatically if required
+void Terminal::setCommand(string cmd)
+{
+	command = cmd;
 }

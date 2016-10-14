@@ -59,6 +59,14 @@ APLOCResponse APLOCProcessor::getResponse(string command)
 {
     APLOCResponse resp;
 
+    // return immediately with only prompt as a response if command is empty
+    if (Helper::stripSpace(command) == "")
+    {
+        resp.setPrompt(getPrompt());
+
+        return resp;
+    }
+
     // do autocompletion if it's a TAB appended command
     if (command[command.length() - 1] == TAB)
     {
@@ -116,6 +124,9 @@ APLOCResponse APLOCProcessor::processTab(string command)
 // handles complete commands i.e. commands ending with ENTER key
 APLOCResponse APLOCProcessor::processEnter(string command)
 {
+    if (isNonMoCommand(command))
+        return handleNonMoCommand(command);
+
     APLOCResponse resp;
 
     // get child Mo of currentMo which has name as user 
@@ -151,14 +162,34 @@ APLOCResponse APLOCProcessor::processEnter(string command)
 // from non-MO command list
 bool APLOCProcessor::isNonMoCommand(string command)
 {
+    // non-MO command list
+    string list[10] = {"up", "top", "end", "abort -s", "abort", "commit", "commit -s", "show" , "mml", "quit"};
+
+    // check if user typed command is one of the non-MO command
+    for (int i = 0; i < 10; i++)
+    {
+        if (list[i] == command)
+        {
+            return true;
+        }
+    }
+
 	return false;
 }
 
 // handles non-MO commands
 APLOCResponse APLOCProcessor::handleNonMoCommand(string command)
 {
-	APLOCResponse resp;
-	return resp;
+    if (command == "mml")
+    {
+        return processMml();
+    }
+    else
+    {
+        APLOCResponse resp;
+        return resp;    
+    }
+	
 }
 
 // updates the APLOC commandline prompt w.r.t. MO name
@@ -196,6 +227,30 @@ void APLOCProcessor::updatePrompt()
     }
 }
 
+// handles switching from APLOC to MML mode
+APLOCResponse APLOCProcessor::processMml()
+{
+    APLOCResponse resp;
+
+    if (currentMo->getName() != "APLOC")
+    {
+        resp.setPrompt(getDefaultPrompt());
+        resp.setOutput("Error: Invalid command");
+
+        return resp;
+    }
+
+    resp.setExit(true);
+    return resp;
+}
+
+// returns the current prompt
+string APLOCProcessor::getPrompt()
+{
+    return prompt;
+}
+
+// returns the default prompt
 string APLOCProcessor::getDefaultPrompt()
 {
     return APLOC_PROMPT;

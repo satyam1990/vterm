@@ -13,7 +13,7 @@ INCLUDES := $(addprefix -I , $(DIRS))
 OBJS := $(addsuffix /objs/*.o, $(DIRS))
 
 $(BINDIR)/vterm: subdirs | $(BINDIR)
-	$(CXX) -o $@ main.cc $(OBJS) $(INCLUDES) $(LIBS)
+	$(CXX) $(DEBUG_FLAGS) -o $@ main.cc $(OBJS) $(INCLUDES) $(LIBS)
 	@echo -e "\nCompilation Successful!"
 
 subdirs:

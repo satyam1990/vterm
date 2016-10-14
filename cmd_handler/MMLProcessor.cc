@@ -18,6 +18,15 @@ MMLResponse MMLProcessor::getResponse(string command)
 	// clean up the command string
 	command = Helper::stripSpace(command);
 
+	// return immediately with only prompt as a response if command is empty
+    if (command == "")
+    {
+    	MMLResponse resp;
+        resp.setPrompt(getDefaultPrompt());
+
+        return resp;
+    }
+
 	// in case of invalid commands
 	if (validateCommand(command) == false)
 	{

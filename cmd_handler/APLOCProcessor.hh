@@ -68,6 +68,10 @@ class APLOCProcessor {
         // updates the APLOC commandline prompt w.r.t. MO name
         void updatePrompt();
 
+        // handles switching from APLOC to MML mode
+        APLOCResponse processMml();
+
+        string getPrompt();
         string getDefaultPrompt();
 };
 #endif
