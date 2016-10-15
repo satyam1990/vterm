@@ -60,7 +60,7 @@ APLOCResponse APLOCProcessor::getResponse(string command)
     APLOCResponse resp;
 
     // return immediately with only prompt as a response if command is empty
-    if (Helper::stripSpace(command) == "")
+    if (command.length() == 0)
     {
         resp.setPrompt(getPrompt());
 
@@ -91,17 +91,30 @@ APLOCResponse APLOCProcessor::processTab(string command)
     // get all child Mo's starting with text in command
     MoList* list = currentMo->getChildMoNameStartsWith(command);
 
+    // no match found return empty object just with the prompt
+    // and the half command entered by user
+    if (list->getLength() == 0)
+    {
+        resp.setPrompt(getPrompt());
+        resp.setAutoCompletedCommand(command);
+
+        return resp;
+    }
+
     // if only one match is found then
     if (list->getLength() == 1)
     { 
         // get the complete command
         command = list->getMoAtIndex(0)->getName();
+
+        // set the prompt
+        resp.setPrompt(getPrompt());
         
         // set the complete command in response
         resp.setAutoCompletedCommand(command);
 
-        // set the prompt
-        resp.setPrompt(prompt);
+        // indicate terminal about autocompletion
+        resp.setAutoCompleted(true);
     }
     // else many Mo's are begining with text in command then
     else
@@ -110,11 +123,16 @@ APLOCResponse APLOCProcessor::processTab(string command)
         // then list each Mo in a newline
         for (int i = 0; i < list->getLength(); i++)
         {
-            out << endl << list->getMoAtIndex(i)->getName();
+            out << list->getMoAtIndex(i)->getName() << endl;
         }
 
         // set the prompt and output
-        resp.setPrompt(prompt);
+        resp.setPrompt(getPrompt());
+
+        // keep the half typed user command in response
+        resp.setAutoCompletedCommand(command);
+
+        // set the available Mo list
         resp.setOutput(out.str());
     }
 
@@ -153,7 +171,7 @@ APLOCResponse APLOCProcessor::processEnter(string command)
     updatePrompt();
 
     // make respose and return
-    resp.setPrompt(prompt);
+    resp.setPrompt(getPrompt());
 
     return resp;
 }
@@ -234,7 +252,7 @@ APLOCResponse APLOCProcessor::processMml()
 
     if (currentMo->getName() != "APLOC")
     {
-        resp.setPrompt(getDefaultPrompt());
+        resp.setPrompt(getPrompt());
         resp.setOutput("Error: Invalid command");
 
         return resp;

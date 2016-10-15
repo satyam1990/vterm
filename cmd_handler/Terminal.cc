@@ -129,12 +129,18 @@ void Terminal::processInput(char c)
 		// tab pressed
 		case TAB:
 			if (aplocMode)
+			{
+				command += c;
 				processCommand();
+			}
 			break;
 
 		// enter  pressed
 		case ENTER:
 			processCommand();
+			
+			// clean up the command
+			setCommand("");
 			break;
 
 		// default
@@ -166,9 +172,6 @@ void Terminal::processCommand()
 		// process and display response
 		processAndDisplay(resp);
 	}
-
-	// clean up the command
-	setCommand("");
 }
 
 // processes response and displays output if any for MML commands
@@ -204,12 +207,23 @@ void Terminal::processAndDisplay(APLOCResponse resp)
 		return;
 	}
 
+	// update the terminal command with autocompleted command
+	setCommand(resp.getAutoCompletedCommand());
+
+	if (resp.isAutoCompleted())
+	{
+		cout << CR << resp.getPrompt() << getCommand();
+		return;
+	}
+
 	// print output if available
 	if (resp.getOutput() != "")
+	{
 		cout << endl << resp.getOutput();
+	}
 
 	// print the prompt
-	cout << endl << resp.getPrompt();
+	cout << endl << resp.getPrompt() << resp.getAutoCompletedCommand();
 }
 
 // removes one character from the end from our command when backspace 

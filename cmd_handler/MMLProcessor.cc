@@ -19,7 +19,7 @@ MMLResponse MMLProcessor::getResponse(string command)
 	command = Helper::stripSpace(command);
 
 	// return immediately with only prompt as a response if command is empty
-    if (command == "")
+    if (command.length() == 0)
     {
     	MMLResponse resp;
         resp.setPrompt(getDefaultPrompt());
