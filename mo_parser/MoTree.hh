@@ -40,7 +40,7 @@ class MoTree {
 		// returns all MO's in our MO Tree represented by XML file
 		MoList* getAllMos();
 
-		// returns MO with the Name specified
+		// returns MO with the Name specified (except the root MO)
 		Mo* getMoByName(string name);
 };
 #endif

@@ -202,12 +202,84 @@ APLOCResponse APLOCProcessor::handleNonMoCommand(string command)
     {
         return processMml();
     }
+    else if (command == "up")
+    {
+        return processUp();
+    }
+    else if (command == "end")
+    {
+        return processEnd();
+    }
     else
     {
         APLOCResponse resp;
+        resp.setPrompt(getPrompt());
+        resp.setOutput("Command Not Supported by this version of NE Simulator");
         return resp;    
     }
 	
+}
+
+// handles switching from APLOC to MML mode
+APLOCResponse APLOCProcessor::processMml()
+{
+    APLOCResponse resp;
+
+    if (currentMo->getName() != "APLOC")
+    {
+        resp.setPrompt(getPrompt());
+        resp.setOutput("Error: Invalid command");
+
+        return resp;
+    }
+
+    resp.setExit(true);
+    return resp;
+}
+
+// switches from current MO to parent MO
+APLOCResponse APLOCProcessor::processUp()
+{
+    APLOCResponse resp;
+
+    // send back error message when already at configure or APLOC MO
+    if (currentMo->getName() == "configure" ||
+        currentMo->getName() == "APLOC")
+    {
+        resp.setPrompt(getPrompt());
+        resp.setOutput("Error: Already at root");
+
+        return resp;
+    }
+
+    // shift to parent MO
+    currentMo = currentMo->getParentMo();
+
+    // update prompt with new MO
+    updatePrompt();
+
+    // only need to send the new prompt back to terminal
+    resp.setPrompt(getPrompt());
+
+    return resp;
+}
+
+// switch to APLOC mode root level
+APLOCResponse APLOCProcessor::processEnd()
+{
+    APLOCResponse resp;
+
+    currentMo = currentMoTree->getRootMo();
+
+    // disable the config mode
+    configMode = false;
+
+    // update prompt with APLOC default prompt
+    updatePrompt();
+
+    resp.setPrompt(getPrompt());
+
+    return resp;
 }
 
 // updates the APLOC commandline prompt w.r.t. MO name
@@ -243,23 +315,6 @@ void APLOCProcessor::updatePrompt()
             prompt = string("(") + currentMo->getName() + string(")") + APLOC_PROMPT;
         }
     }
-}
-
-// handles switching from APLOC to MML mode
-APLOCResponse APLOCProcessor::processMml()
-{
-    APLOCResponse resp;
-
-    if (currentMo->getName() != "APLOC")
-    {
-        resp.setPrompt(getPrompt());
-        resp.setOutput("Error: Invalid command");
-
-        return resp;
-    }
-
-    resp.setExit(true);
-    return resp;
 }
 
 // returns the current prompt

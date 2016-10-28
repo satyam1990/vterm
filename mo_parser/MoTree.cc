@@ -52,7 +52,7 @@ MoList* MoTree::getAllMos()
 	return NULL;
 }
 
-// returns MO with the Name specified
+// returns MO with the Name specified (except the root MO)
 Mo* MoTree::getMoByName(string name)
 {
 	DOMNodeList* list = root->getElementsByTagName(XMLString::transcode(name.c_str()));

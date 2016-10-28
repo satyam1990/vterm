@@ -71,7 +71,16 @@ class APLOCProcessor {
         // handles switching from APLOC to MML mode
         APLOCResponse processMml();
 
+        // switches from current MO to parent MO
+        APLOCResponse processUp();
+
+        // switch to APLOC mode root level
+        APLOCResponse processEnd();
+
+        // returns the current prompt
         string getPrompt();
+
+        // returns the default prompt
         string getDefaultPrompt();
 };
 #endif

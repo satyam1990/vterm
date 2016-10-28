@@ -207,7 +207,7 @@ void Terminal::processAndDisplay(APLOCResponse resp)
 		return;
 	}
 
-	// update the terminal command with autocompleted command
+	// update the terminal command with autocompleted command (if any)
 	setCommand(resp.getAutoCompletedCommand());
 
 	if (resp.isAutoCompleted())
