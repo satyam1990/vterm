@@ -11,6 +11,9 @@
  * ***************************************************************************/
 
 #include <gtkmm.h>
+#include <iostream>
+
+using namespace std;
 
 class MainWindow : public Gtk::Window {
 
@@ -33,17 +36,24 @@ class MainWindow : public Gtk::Window {
         // holds the scrolled window containing textview
         Gtk::HBox hbox5;
 
+        Gtk::Frame nodeStatusFrame;
+
         // holds the textview
         Gtk::ScrolledWindow scrolledWindow;
 
-        // menu bar
-        // TODO
+        // menu bar using UIManager and ActionGroup
+        Glib::RefPtr<Gtk::UIManager> uiManager;
+        Glib::RefPtr<Gtk::ActionGroup> actionGroup;
+        Glib::ustring menubarLayout;
 
         // NODE start button
         Gtk::Button startButton;
 
         // NODE stop  button
         Gtk::Button stopButton;
+
+        // Send alarm button
+        Gtk::Button sendAlarmButton;
 
         // task status view
         Gtk::TextView taskStatus;
@@ -52,4 +62,6 @@ class MainWindow : public Gtk::Window {
         // sets up GUI main window
         MainWindow();
 
+        // gets the Menubar layout
+        Glib::ustring getMenubarLayout();
 };
