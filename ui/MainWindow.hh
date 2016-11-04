@@ -55,6 +55,12 @@ class MainWindow : public Gtk::Window {
         // Send alarm button
         Gtk::Button sendAlarmButton;
 
+        // node status icon
+        Gtk::Image nodeStatusIcon;
+
+        // node status label
+        Gtk::Label nodeStatusLabel;
+
         // task status view
         Gtk::TextView taskStatus;
 
