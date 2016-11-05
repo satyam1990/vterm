@@ -88,3 +88,35 @@ string Helper::stripSemicolon(string& str)
 
 	return str;
 }
+
+// reads contents of a flat file
+string Helper::getFileContents(string filename)
+{
+	string contents = "";
+	int length = 0;
+
+	ifstream inFile(filename.c_str(), ifstream::in);
+
+	if (inFile)
+	{
+		// get the length of file
+		inFile.seekg(0, inFile.end);
+		length = inFile.tellg();
+
+		// move back to file begining
+		inFile.seekg(0, inFile.beg);
+
+		// allocate memory to hold file contents
+		char* buffer = new char[length + 1];
+
+		// read data as a block
+		inFile.read(buffer, length);
+		inFile.close();
+
+		contents = buffer;
+
+		delete[] buffer;
+	}
+
+	return contents;
+}

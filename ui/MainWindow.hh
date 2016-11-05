@@ -10,14 +10,26 @@
  *
  * ***************************************************************************/
 
+#if !defined(MAIN_WINDOW_HH)
+#define MAIN_WINDOW_HH
+
+#define ETC_SERVICES "/etc/services"
+#define NE_MAGIC_TEXT "vterm"
+
 #include <gtkmm.h>
 #include <iostream>
+
+#include <Helper.hh>
 
 using namespace std;
 
 class MainWindow : public Gtk::Window {
 
     private:
+
+        // scrolled window
+        Gtk::ScrolledWindow mainScrolledWindow;
+
         // holds all the hboxex
         Gtk::VBox vbox;
 
@@ -39,7 +51,7 @@ class MainWindow : public Gtk::Window {
         Gtk::Frame nodeStatusFrame;
 
         // holds the textview
-        Gtk::ScrolledWindow scrolledWindow;
+        Gtk::ScrolledWindow textScrolledWindow;
 
         // menu bar using UIManager and ActionGroup
         Glib::RefPtr<Gtk::UIManager> uiManager;
@@ -70,4 +82,8 @@ class MainWindow : public Gtk::Window {
 
         // gets the Menubar layout
         Glib::ustring getMenubarLayout();
+
+        // checks whether the NODE is running or stopped
+        bool checkNodeStatus();
 };
+#endif

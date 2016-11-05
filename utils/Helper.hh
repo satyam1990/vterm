@@ -15,6 +15,7 @@
 
 #include <cctype>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -33,5 +34,8 @@ class Helper {
 
 		// strip semi-colon from the end of the command
 		static string stripSemicolon(string& str);
+
+		// reads contents of a flat file
+		static string getFileContents(string filename);
 };
 #endif

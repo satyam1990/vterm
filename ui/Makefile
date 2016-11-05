@@ -2,6 +2,8 @@ CXX := g++
 
 CXXFLAGS := -std=c++11
 
+INCLUDES := -I../utils
+
 LIBS := `pkg-config gtkmm-2.4 --cflags --libs`
 
 BINDIR := bin
@@ -10,16 +12,18 @@ OBJDIR := objs
 
 OBJS := $(addprefix $(OBJDIR)/, MainWindow.o main.o)
 
+HELPER_OBJ := ../utils/$(OBJDIR)/*.o
+
 $(BINDIR)/main: $(OBJS) | $(BINDIR)
-	$(CXX) -o $@ $(OBJS) $(LIBS) $(CXXFLAGS)
+	$(CXX) -o $@ $(OBJS) $(HELPER_OBJ) $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
 $(OBJS): | $(OBJDIR)
 
-$(OBJDIR)/MainWindow.o: MainWindow.cc MainWindow.hh
-	$(CXX) -o $@ -c $< $(LIBS) $(CXXFLAGS)
+$(OBJDIR)/MainWindow.o: MainWindow.cc MainWindow.hh ../utils/Helper.hh
+	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
-$(OBJDIR)/main.o: main.cc MainWindow.hh
-	$(CXX) -o $@ -c $< $(LIBS) $(CXXFLAGS)
+$(OBJDIR)/main.o: main.cc MainWindow.hh ../utils/Helper.hh
+	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
 $(BINDIR):
 	mkdir $(BINDIR)

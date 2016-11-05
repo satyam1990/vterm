@@ -19,8 +19,14 @@ MainWindow::MainWindow()
     set_default_size(400, 200);
     set_position(Gtk::WIN_POS_CENTER);
 
-    // add vbox which will contain all hboxes to the main window
-    add(vbox);
+    // add main scrolled window to toplevel window
+    add(mainScrolledWindow);
+
+    // scrolled window only visible when required
+    mainScrolledWindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+
+    // add vbox which will contain all hboxes to the main scrolled window
+    mainScrolledWindow.add(vbox);
 
     // add all the hboxes into the vbox
     vbox.pack_start(hbox1);
@@ -78,8 +84,6 @@ MainWindow::MainWindow()
     startButton.set_label("Start NODE");
     
     stopButton.set_label("Stop NODE");
-    // diable stop button by default
-    stopButton.set_sensitive(false);
 
     sendAlarmButton.set_label("Send Alarm");
 
@@ -101,6 +105,9 @@ MainWindow::MainWindow()
 
     // add NODE staus in node status frame
     nodeStatusFrame.add(hbox4);
+
+    // check NODE status
+    checkNodeStatus();
 
     // display all the widgets
     show_all_children();
@@ -130,4 +137,31 @@ Glib::ustring MainWindow::getMenubarLayout()
         "</ui>";
 
     return menuLayout;
+}
+
+// return true when simulator running else false
+bool MainWindow::checkNodeStatus()
+{
+    string contents = Helper::getFileContents(ETC_SERVICES);
+    
+    // see if NE simulator settings already installed in inetd conf
+    if (contents.find(NE_MAGIC_TEXT) == string::npos)
+    {
+        // Simulator not started yet
+        // disable stop button
+        stopButton.set_sensitive(false);
+
+        return false;
+    }
+
+    // Simulator already running
+
+    // change NODE status label and icon
+    nodeStatusIcon.set(Gtk::Stock::YES, Gtk::IconSize(1));
+    nodeStatusLabel.set_text("RUNNING");
+
+    // disable the start button
+    startButton.set_sensitive(false);
+    
+    return true;
 }
