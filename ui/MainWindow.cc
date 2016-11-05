@@ -32,7 +32,6 @@ MainWindow::MainWindow()
     vbox.pack_start(hbox1);
     vbox.pack_start(hbox2);
     vbox.pack_start(hbox3);
-    vbox.pack_start(hbox5);
 
     // create menubar and menu items
     actionGroup = Gtk::ActionGroup::create();
@@ -40,24 +39,30 @@ MainWindow::MainWindow()
     // File Menu
     actionGroup->add(Gtk::Action::create("FileMenu", "File"));
     // menu items under File
-    actionGroup->add(Gtk::Action::create("FileQuit", Gtk::Stock::QUIT));
+    actionGroup->add(Gtk::Action::create("FileQuit", Gtk::Stock::QUIT),
+                sigc::ptr_fun(&Gtk::Main::quit));
 
     // Edit Menu
     actionGroup->add(Gtk::Action::create("EditMenu", "Edit"));
     // menu items under Edit
-    actionGroup->add(Gtk::Action::create("MOPath", "MO File Path"));
-    actionGroup->add(Gtk::Action::create("MMLPath", "MML Response File Path"));
-    actionGroup->add(Gtk::Action::create("DefaultDestination", "Default Destination"));
+    actionGroup->add(Gtk::Action::create("MOPath", "MO File Path"),
+                sigc::ptr_fun(&EventHandler::editMOPath));
+    actionGroup->add(Gtk::Action::create("MMLPath", "MML Response File Path"),
+                sigc::ptr_fun(&EventHandler::editMMLPath));
+    actionGroup->add(Gtk::Action::create("DefaultDestination", "Default Destination"),
+                sigc::ptr_fun(&EventHandler::editDefaultDestination));
 
     // Option Menu
     actionGroup->add(Gtk::Action::create("OptionMenu", "Options"));
     // menu items under option
-    actionGroup->add(Gtk::Action::create("CustomAlarm", "Send Custom Alarms"));
+    actionGroup->add(Gtk::Action::create("CustomAlarm", "Send Custom Alarms"),
+                sigc::ptr_fun(&EventHandler::customAlarmHandler));
 
     // Help Menu
     actionGroup->add(Gtk::Action::create("HelpMenu", "Help"));
     // menu items under help
-    actionGroup->add(Gtk::Action::create("HelpAbout", Gtk::Stock::HELP));
+    actionGroup->add(Gtk::Action::create("HelpAbout", Gtk::Stock::HELP),
+                sigc::ptr_fun(&EventHandler::helpHandler));
 
     uiManager = Gtk::UIManager::create();
     uiManager->insert_action_group(actionGroup);
@@ -82,10 +87,13 @@ MainWindow::MainWindow()
 
     // add label to start stop button
     startButton.set_label("Start NODE");
+    startButton.signal_clicked().connect(sigc::ptr_fun(&EventHandler::startNE));
     
     stopButton.set_label("Stop NODE");
+    stopButton.signal_clicked().connect(sigc::ptr_fun(&EventHandler::stopNE));
 
     sendAlarmButton.set_label("Send Alarm");
+    sendAlarmButton.signal_clicked().connect(sigc::ptr_fun(&EventHandler::sendAlarmHandler));
 
     // add the start stop and send alarm button to the hbox2 container
     hbox2.pack_start(startButton, true, true, 10);
@@ -94,10 +102,6 @@ MainWindow::MainWindow()
 
     nodeStatusFrame.set_label("NODE Status");
     hbox3.pack_start(nodeStatusFrame, true, true, 10);
-
-    // set the default NODE status icon and label as stopped
-    nodeStatusIcon.set(Gtk::Stock::NO, Gtk::IconSize(1));
-    nodeStatusLabel.set_text("STOPPED");
 
     // add NODE status icon and label to hbox4
     hbox4.pack_start(nodeStatusIcon, false, false, 10);
@@ -148,6 +152,11 @@ bool MainWindow::checkNodeStatus()
     if (contents.find(NE_MAGIC_TEXT) == string::npos)
     {
         // Simulator not started yet
+
+        // set the NODE status icon and label as stopped
+        nodeStatusIcon.set(Gtk::Stock::NO, Gtk::IconSize(1));
+        nodeStatusLabel.set_text("STOPPED");
+
         // disable stop button
         stopButton.set_sensitive(false);
 

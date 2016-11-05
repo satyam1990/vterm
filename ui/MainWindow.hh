@@ -20,6 +20,7 @@
 #include <iostream>
 
 #include <Helper.hh>
+#include "EventHandler.hh"
 
 using namespace std;
 
@@ -45,13 +46,8 @@ class MainWindow : public Gtk::Window {
         // holds the actual NE status
         Gtk::HBox hbox4;
 
-        // holds the scrolled window containing textview
-        Gtk::HBox hbox5;
-
+        // holds the NODE status icon and label
         Gtk::Frame nodeStatusFrame;
-
-        // holds the textview
-        Gtk::ScrolledWindow textScrolledWindow;
 
         // menu bar using UIManager and ActionGroup
         Glib::RefPtr<Gtk::UIManager> uiManager;
@@ -72,9 +68,6 @@ class MainWindow : public Gtk::Window {
 
         // node status label
         Gtk::Label nodeStatusLabel;
-
-        // task status view
-        Gtk::TextView taskStatus;
 
     public:
         // sets up GUI main window

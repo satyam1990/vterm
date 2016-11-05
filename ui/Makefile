@@ -10,7 +10,7 @@ BINDIR := bin
 
 OBJDIR := objs
 
-OBJS := $(addprefix $(OBJDIR)/, MainWindow.o main.o)
+OBJS := $(addprefix $(OBJDIR)/, MainWindow.o EventHandler.o  main.o)
 
 HELPER_OBJ := ../utils/$(OBJDIR)/*.o
 
@@ -19,10 +19,13 @@ $(BINDIR)/main: $(OBJS) | $(BINDIR)
 
 $(OBJS): | $(OBJDIR)
 
-$(OBJDIR)/MainWindow.o: MainWindow.cc MainWindow.hh ../utils/Helper.hh
+$(OBJDIR)/MainWindow.o: MainWindow.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh
 	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
-$(OBJDIR)/main.o: main.cc MainWindow.hh ../utils/Helper.hh
+$(OBJDIR)/EventHandler.o: EventHandler.cc EventHandler.hh
+	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
+
+$(OBJDIR)/main.o: main.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh
 	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
 $(BINDIR):
