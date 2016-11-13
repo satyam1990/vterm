@@ -10,20 +10,20 @@
  *
  * ***************************************************************************/
 
-#include <gtkmm.h>
+#include <gtk/gtk.h>
 
 #include "MainWindow.hh"
 
 int main(int argc, char* argv[])
 {
     // initialize the GTKMM toolkit
-    Gtk::Main kit(argc, argv);
+    gtk_init(&argc, &argv);
 
     // create the main window instance
     MainWindow win;
 
     // launch the window and start the main loop
-    Gtk::Main::run(win);
+    gtk_main();
 
     return 0;
 }

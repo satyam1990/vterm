@@ -1,10 +1,10 @@
 CXX := g++
 
-CXXFLAGS := -std=c++11
+CXXFLAGS := 
 
 INCLUDES := -I../utils
 
-LIBS := `pkg-config gtkmm-2.4 --cflags --libs`
+LIBS := `pkg-config gtk+-2.0 --cflags --libs`
 
 BINDIR := bin
 

@@ -15,132 +15,144 @@
 // sets up GUI main window
 MainWindow::MainWindow()
 {
-    set_title("NE Simulator");
-    set_default_size(400, 200);
-    set_position(Gtk::WIN_POS_CENTER);
+    // create toplevel window
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+    gtk_window_set_default_size(GTK_WINDOW(window), 400, 200);
+    gtk_window_set_title(GTK_WINDOW(window), "NE Simulator");
+
+    // create scrolled window
+    mainScrolledWindow = gtk_scrolled_window_new(NULL,NULL);
 
     // add main scrolled window to toplevel window
-    add(mainScrolledWindow);
+    gtk_container_add(GTK_CONTAINER(window), mainScrolledWindow);
 
     // scrolled window only visible when required
-    mainScrolledWindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(mainScrolledWindow), 
+        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-    // add vbox which will contain all hboxes to the main scrolled window
-    mainScrolledWindow.add(vbox);
+    // create vbox which  contains all hboxes
+    vbox = gtk_vbox_new(FALSE, 5);
+
+    // create all the hboxes
+    hbox1 = gtk_hbox_new(FALSE, 0);
+    hbox2 = gtk_hbox_new(FALSE, 0);
+    hbox3 = gtk_hbox_new(FALSE, 0);
+    hbox4 = gtk_hbox_new(FALSE, 0);
+
+    // add vbox to the main scrolled window
+    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(mainScrolledWindow), vbox);
 
     // add all the hboxes into the vbox
-    vbox.pack_start(hbox1);
-    vbox.pack_start(hbox2);
-    vbox.pack_start(hbox3);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox2, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox3, FALSE, FALSE, 0);
 
-    // create menubar and menu items
-    actionGroup = Gtk::ActionGroup::create();
+    // create menubar and different menus in it with menu items
+    menubar = gtk_menu_bar_new();
+    fileMenu = gtk_menu_new();
+    editMenu = gtk_menu_new();
+    optionsMenu = gtk_menu_new();
+    helpMenu = gtk_menu_new();
 
-    // File Menu
-    actionGroup->add(Gtk::Action::create("FileMenu", "File"));
-    // menu items under File
-    actionGroup->add(Gtk::Action::create("FileQuit", Gtk::Stock::QUIT),
-                sigc::ptr_fun(&Gtk::Main::quit));
+    fileMenuItem = gtk_menu_item_new_with_label("File");
+    quitMenuItem = gtk_menu_item_new_with_label("Quit");
 
-    // Edit Menu
-    actionGroup->add(Gtk::Action::create("EditMenu", "Edit"));
-    // menu items under Edit
-    actionGroup->add(Gtk::Action::create("MOPath", "MO File Path"),
-                sigc::ptr_fun(&EventHandler::editMOPath));
-    actionGroup->add(Gtk::Action::create("MMLPath", "MML Response File Path"),
-                sigc::ptr_fun(&EventHandler::editMMLPath));
-    actionGroup->add(Gtk::Action::create("DefaultDestination", "Default Destination"),
-                sigc::ptr_fun(&EventHandler::editDefaultDestination));
+    editMenuItem = gtk_menu_item_new_with_label("Edit");
+    moPathMenuItem = gtk_menu_item_new_with_label("MO File Path");
+    mmlPathMenuItem = gtk_menu_item_new_with_label("MML Response File Path");
+    defaultDestinationMenuItem = gtk_menu_item_new_with_label("Default Destination");
 
-    // Option Menu
-    actionGroup->add(Gtk::Action::create("OptionMenu", "Options"));
-    // menu items under option
-    actionGroup->add(Gtk::Action::create("CustomAlarm", "Send Custom Alarms"),
-                sigc::ptr_fun(&EventHandler::customAlarmHandler));
+    optionsMenuItem = gtk_menu_item_new_with_label("Options");
+    customAlarmMenuItem = gtk_menu_item_new_with_label("Send Custom Alarms");
 
-    // Help Menu
-    actionGroup->add(Gtk::Action::create("HelpMenu", "Help"));
-    // menu items under help
-    actionGroup->add(Gtk::Action::create("HelpAbout", Gtk::Stock::HELP),
-                sigc::ptr_fun(&EventHandler::helpHandler));
+    helpMenuItem = gtk_menu_item_new_with_label("Help");
+    helpContentsMenuItem = gtk_menu_item_new_with_label("Contents");
 
-    uiManager = Gtk::UIManager::create();
-    uiManager->insert_action_group(actionGroup);
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(fileMenuItem), fileMenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), quitMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), fileMenuItem);
 
-    add_accel_group(uiManager->get_accel_group());
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(editMenuItem), editMenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editMenu), moPathMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editMenu), mmlPathMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(editMenu), defaultDestinationMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), editMenuItem);
 
-    menubarLayout = getMenubarLayout();
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(optionsMenuItem), optionsMenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(optionsMenu), customAlarmMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), optionsMenuItem);
 
-    try
-    {
-        uiManager->add_ui_from_string(menubarLayout);
-    }
-    catch (const Glib::Error& ex)
-    {
-        cerr << "Building Menu Failed" << ex.what();
-    }
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(helpMenuItem), helpMenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(helpMenu), helpContentsMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), helpMenuItem);
 
-    Gtk::Widget* menubar = uiManager->get_widget("/Menubar");
+    // add menubar to first  hbox
+    gtk_box_pack_start(GTK_BOX(hbox1), menubar, FALSE, FALSE, 10);
 
-    // add menubar to hbox1
-    hbox1.pack_start(*menubar, true, true, 10);
+    // create start and stop button
+    startButton = gtk_button_new_with_label("Start NODE");
+    stopButton = gtk_button_new_with_label("Stop NODE");
 
-    // add label to start stop button
-    startButton.set_label("Start NODE");
-    startButton.signal_clicked().connect(sigc::ptr_fun(&EventHandler::startNE));
-    
-    stopButton.set_label("Stop NODE");
-    stopButton.signal_clicked().connect(sigc::ptr_fun(&EventHandler::stopNE));
-
-    sendAlarmButton.set_label("Send Alarm");
-    sendAlarmButton.signal_clicked().connect(sigc::ptr_fun(&EventHandler::sendAlarmHandler));
+    // send default alarm button
+    sendAlarmButton = gtk_button_new_with_label("Send Alarm");
 
     // add the start stop and send alarm button to the hbox2 container
-    hbox2.pack_start(startButton, true, true, 10);
-    hbox2.pack_start(stopButton, true, true, 10);
-    hbox2.pack_start(sendAlarmButton, true, true, 10);
+    gtk_box_pack_start(GTK_BOX(hbox2), startButton, TRUE, TRUE, 10);
+    gtk_box_pack_start(GTK_BOX(hbox2), stopButton, TRUE, TRUE, 10);
+    gtk_box_pack_start(GTK_BOX(hbox2), sendAlarmButton, TRUE, TRUE, 10);
+    
+    // create NODE status frame
+    nodeStatusFrame = gtk_frame_new("NODE Status");
+    gtk_widget_set_size_request(nodeStatusFrame, -1, 100);
 
-    nodeStatusFrame.set_label("NODE Status");
-    hbox3.pack_start(nodeStatusFrame, true, true, 10);
+    // add frame to hbox3
+    gtk_box_pack_start(GTK_BOX(hbox3), nodeStatusFrame, TRUE, TRUE, 10);
 
-    // add NODE status icon and label to hbox4
-    hbox4.pack_start(nodeStatusIcon, false, false, 10);
-    hbox4.pack_start(nodeStatusLabel, false, false, 10);
-
-    // add NODE staus in node status frame
-    nodeStatusFrame.add(hbox4);
-
-    // check NODE status
+    // check NODE status should be called before adding icon and label to hbox
     checkNodeStatus();
 
+    // add NODE status icon and label to hbox4
+    gtk_box_pack_start(GTK_BOX(hbox4), nodeStatusIcon, FALSE, FALSE, 10);
+    gtk_box_pack_start(GTK_BOX(hbox4), nodeStatusLabel, FALSE, FALSE, 10);
+
+    // add NODE staus in node status frame
+    gtk_container_add(GTK_CONTAINER(nodeStatusFrame), hbox4);
+
+    // setup signal handlers for widgets
+    setEventHandlers();
+
     // display all the widgets
-    show_all_children();
+    gtk_widget_show_all(window);
 }
 
-Glib::ustring MainWindow::getMenubarLayout()
+// sets up signal handlers for widgets
+void MainWindow::setEventHandlers()
 {
-    Glib::ustring menuLayout = 
-        "<ui>"
-            "<menubar name='Menubar'>"
-                "<menu action='FileMenu'>"
-                    "<menuitem action='FileQuit'/>"
-                "</menu>"
-                "<menu action='EditMenu'>"
-                    "<menuitem action='MOPath'/>"
-                    "<menuitem action='MMLPath'/>"
-                    "<separator />"
-                    "<menuitem action='DefaultDestination'/>"
-                "</menu>"
-                "<menu action='OptionMenu'>"
-                    "<menuitem action='CustomAlarm'/>"
-                "</menu>"
-                "<menu action='HelpMenu'>"
-                    "<menuitem action='HelpAbout'/>"
-                "</menu>"
-            "</menubar>"
-        "</ui>";
+    // set close button signal handler for main window
+    g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
-    return menuLayout;
+    // set menu items signal handers
+    g_signal_connect(G_OBJECT(quitMenuItem), "activate", 
+        G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect(G_OBJECT(moPathMenuItem), "activate", 
+        G_CALLBACK(EventHandler::editMOPath), NULL);
+    g_signal_connect(G_OBJECT(mmlPathMenuItem), "activate", 
+        G_CALLBACK(EventHandler::editMMLPath), NULL);
+    g_signal_connect(G_OBJECT(defaultDestinationMenuItem), "activate", 
+        G_CALLBACK(EventHandler::editDefaultDestination), NULL);
+    g_signal_connect(G_OBJECT(customAlarmMenuItem), "activate", 
+        G_CALLBACK(EventHandler::customAlarmHandler), NULL);
+    g_signal_connect(G_OBJECT(helpContentsMenuItem), "activate", 
+        G_CALLBACK(EventHandler::helpHandler), NULL);
+
+    // buttons signal handler
+    g_signal_connect(G_OBJECT(startButton), "clicked", 
+        G_CALLBACK(EventHandler::startNE), NULL);
+    g_signal_connect(G_OBJECT(stopButton), "clicked", 
+        G_CALLBACK(EventHandler::stopNE), NULL);
+    g_signal_connect(G_OBJECT(sendAlarmButton), "clicked", 
+        G_CALLBACK(EventHandler::sendAlarmHandler), NULL);
 }
 
 // return true when simulator running else false
@@ -154,11 +166,11 @@ bool MainWindow::checkNodeStatus()
         // Simulator not started yet
 
         // set the NODE status icon and label as stopped
-        nodeStatusIcon.set(Gtk::Stock::NO, Gtk::IconSize(1));
-        nodeStatusLabel.set_text("STOPPED");
-
+        nodeStatusIcon = gtk_image_new_from_stock(GTK_STOCK_NO, GTK_ICON_SIZE_BUTTON);
+        nodeStatusLabel = gtk_label_new("STOPPED");
+       
         // disable stop button
-        stopButton.set_sensitive(false);
+        gtk_widget_set_sensitive(stopButton, FALSE);
 
         return false;
     }
@@ -166,11 +178,11 @@ bool MainWindow::checkNodeStatus()
     // Simulator already running
 
     // change NODE status label and icon
-    nodeStatusIcon.set(Gtk::Stock::YES, Gtk::IconSize(1));
-    nodeStatusLabel.set_text("RUNNING");
+    nodeStatusIcon = gtk_image_new_from_stock(GTK_STOCK_YES, GTK_ICON_SIZE_BUTTON);
+    nodeStatusLabel = gtk_label_new("RUNNING");
 
     // disable the start button
-    startButton.set_sensitive(false);
-    
+    gtk_widget_set_sensitive(startButton, FALSE);
+
     return true;
 }

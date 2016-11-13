@@ -16,7 +16,7 @@
 #define ETC_SERVICES "/etc/services"
 #define NE_MAGIC_TEXT "vterm"
 
-#include <gtkmm.h>
+#include <gtk/gtk.h>
 #include <iostream>
 
 #include <Helper.hh>
@@ -24,57 +24,79 @@
 
 using namespace std;
 
-class MainWindow : public Gtk::Window {
+class MainWindow {
 
     private:
 
+        // main window toplevel
+        GtkWidget* window;
+
         // scrolled window
-        Gtk::ScrolledWindow mainScrolledWindow;
+        GtkWidget* mainScrolledWindow;
 
         // holds all the hboxex
-        Gtk::VBox vbox;
+        GtkWidget* vbox;
 
         // holds the menu bar
-        Gtk::HBox hbox1;
+        GtkWidget* hbox1;
 
         // holds the start stop button
-        Gtk::HBox hbox2;
+        GtkWidget* hbox2;
 
         // holds the NE status label
-        Gtk::HBox hbox3;
+        GtkWidget* hbox3;
 
         // holds the actual NE status
-        Gtk::HBox hbox4;
+        GtkWidget* hbox4;
 
-        // holds the NODE status icon and label
-        Gtk::Frame nodeStatusFrame;
+        // menubar, menus and all menu items
+        GtkWidget* menubar;
 
-        // menu bar using UIManager and ActionGroup
-        Glib::RefPtr<Gtk::UIManager> uiManager;
-        Glib::RefPtr<Gtk::ActionGroup> actionGroup;
-        Glib::ustring menubarLayout;
+        // menus
+        GtkWidget* fileMenu;
+        GtkWidget* editMenu;
+        GtkWidget* optionsMenu;
+        GtkWidget* helpMenu;
+
+        // menu items
+        GtkWidget* fileMenuItem;
+        GtkWidget* quitMenuItem;
+
+        GtkWidget* editMenuItem;
+        GtkWidget* moPathMenuItem;
+        GtkWidget* mmlPathMenuItem;
+        GtkWidget* defaultDestinationMenuItem;
+
+        GtkWidget* optionsMenuItem;
+        GtkWidget* customAlarmMenuItem;
+
+        GtkWidget* helpMenuItem;
+        GtkWidget* helpContentsMenuItem;
 
         // NODE start button
-        Gtk::Button startButton;
+        GtkWidget* startButton;
 
         // NODE stop  button
-        Gtk::Button stopButton;
+        GtkWidget* stopButton;
 
         // Send alarm button
-        Gtk::Button sendAlarmButton;
+        GtkWidget* sendAlarmButton;
+
+        // holds the NODE status icon and label
+        GtkWidget* nodeStatusFrame;
 
         // node status icon
-        Gtk::Image nodeStatusIcon;
+        GtkWidget* nodeStatusIcon;
 
         // node status label
-        Gtk::Label nodeStatusLabel;
+        GtkWidget* nodeStatusLabel;
 
     public:
         // sets up GUI main window
         MainWindow();
 
-        // gets the Menubar layout
-        Glib::ustring getMenubarLayout();
+        // sets up signal handlers for widgets
+        void setEventHandlers();
 
         // checks whether the NODE is running or stopped
         bool checkNodeStatus();

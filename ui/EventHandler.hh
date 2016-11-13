@@ -15,12 +15,16 @@
 #define EVENT_HANDLER_HH
 
 #include <iostream>
+#include <gtk/gtk.h>
 
 using namespace std;
 
 class EventHandler {
 
 	public:
+
+		// closes main window
+		static void onWindowClose(GtkWidget* widget, gpointer data);
 
 		// launches edit MO path dialog
 		static void editMOPath();
