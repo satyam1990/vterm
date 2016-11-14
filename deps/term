@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# set library path
-
-# start the vterm binary
-./vterm $@
