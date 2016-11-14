@@ -1,50 +1,25 @@
-CXX = /proj/wipba/eam/dev_tools/gcc5/bin/g++
+CXX = /vobs/ossrc_3pp/freeware/studio11/SUNWspro/bin/CC
 
-OBJS = MainWindow.o main.o 
+OBJS = MainWindow.o EventHandler.o main.o
 
-INCLUDES = -I/proj/wipba/eam/dev_tools/include/gtkmm-2.4 \
-			-I/proj/wipba/eam/dev_tools/lib/gtkmm-2.4/include \
-			-I/proj/wipba/eam/dev_tools/include/atkmm-1.6 \
-			-I/proj/wipba/eam/dev_tools/include/giomm-2.4 \
-			-I/proj/wipba/eam/dev_tools/lib/giomm-2.4/include \
-			-I/proj/wipba/eam/dev_tools/include/pangomm-1.4 \
-			-I/proj/wipba/eam/dev_tools/lib/pangomm-1.4/include \
-			-I/proj/wipba/eam/dev_tools/include/gtk-2.0 \
-			-I/proj/wipba/eam/dev_tools/include/gtk-unix-print-2.0 \
-			-I/proj/wipba/eam/dev_tools/include/gdkmm-2.4 \
-			-I/proj/wipba/eam/dev_tools/lib/gdkmm-2.4/include \
-			-I/proj/wipba/eam/dev_tools/include/atk-1.0 \
-			-I/proj/wipba/eam/dev_tools/include/glibmm-2.4 \
-			-I/proj/wipba/eam/dev_tools/lib/glibmm-2.4/include \
-			-I/proj/wipba/eam/dev_tools/include/glib-2.0 \
-			-I/proj/wipba/eam/dev_tools/lib/glib-2.0/include \
-			-I/proj/wipba/eam/dev_tools/include/sigc++-2.0 \
-			-I/proj/wipba/eam/dev_tools/lib/sigc++-2.0/include \
-			-I/proj/wipba/eam/dev_tools/include/cairomm-1.0 \
-			-I/proj/wipba/eam/dev_tools/lib/cairomm-1.0/include \
-			-I/proj/wipba/eam/dev_tools/include/pango-1.0 \
-			-I/proj/wipba/eam/dev_tools/include/cairo \
-			-I/proj/wipba/eam/dev_tools/lib/gtk-2.0/include \
-			-I/proj/wipba/eam/dev_tools/include/gdk-pixbuf-2.0 \
-			-I/proj/wipba/eam/dev_tools/include/freetype2 \
-			-I/proj/wipba/eam/dev_tools/include
+HELPER_OBJ = ../utils/*.o
 
-LIBDIR = /proj/wipba/eam/dev_tools/lib
+INCLUDES = -I../utils
 
-LIBS = -lgtkmm-2.4 -latkmm-1.6 -lgdkmm-2.4 -lgiomm-2.4 -lpangomm-1.4 \
-		-lgtk-x11-2.0 -lglibmm-2.4 -lcairomm-1.0 -lsigc-2.0 -lgdk-x11-2.0 \
-		-latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 \
-		-lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lglib-2.0 -lintl
+LIBS = `pkg-config gtk+-2.0 --cflags --libs`
 
 main: $(OBJS)
-	$(CXX) -o $@ $< $(INCLUDES) $(LIBDIR) $(LIBS)
+	$(CXX) -o $@ $(OBJS) $(HELPER_OBJ) $(INCLUDES) $(LIBS)
 
-MainWindow.o:
-	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBDIR) $(LIBS)
+MainWindow.o: MainWindow.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh
+	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS)
 
-main.o:
-	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBDIR) $(LIBS)
+EventHandler.o: EventHandler.cc EventHandler.hh
+	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS)
+
+main.o: main.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh
+	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS)
 
 .PHONY: clean
 clean:
-	rm -rf *.o
+	rm -rf *.o main

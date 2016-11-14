@@ -8,7 +8,7 @@ LIBS = -lxerces-c_2_7
 
 BINDIR = bin
 
-DIRS = cmd_handler utils mo_parser
+DIRS = cmd_handler utils mo_parser ui
 
 INCLUDES = -I/vobs/ossrc_3pp/cif_3pp/borland_enterprise_server/include \
 			-Icmd_handler \
@@ -20,6 +20,18 @@ OBJS = cmd_handler/*.o utils/*.o mo_parser/*.o
 vterm: subdirs
 	$(CXX) -o $@ main.cc $(OBJS) $(INCLUDES) $(LIBDIR) $(LIBS)
 	@echo "\nCompilation Successful!"
+
+install:
+	rm -rf wans
+	mkdir wans
+	mkdir wans/bin
+	mkdir wans/etc
+	mkdir wans/mml_command_output
+	cp vterm deps/emt_tgw_telnetd deps/term ui/main wans/bin
+	cp etc/mo.xml wans/etc
+	tar -cvf wans.tar wans
+	rm -rf wans
+	@echo "\nWANS Tarball Successfully prepared!"
 
 subdirs:
 	@for dir in $(DIRS); do \
@@ -33,4 +45,4 @@ clean:
 	@for dir in $(DIRS); do \
 		cd $$dir; $(MAKE) -f Makefile.sol clean; cd ..; \
 	done
-	rm -rf vterm
+	rm -rf vterm wans.tar
