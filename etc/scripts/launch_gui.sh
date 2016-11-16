@@ -15,6 +15,9 @@ TELNETD=$BIN_DIR/emt_tgw_telnetd
 # path to MO XML file
 MO_FILE=$ROOT/etc/mo.xml
 
+# term script file
+TERM_SCRIPT=$BIN_DIR/term
+
 # path to WANS config file
 WANS_CONFIG=$ROOT/etc/wans.config
 
@@ -38,6 +41,21 @@ create_conf_file()
 	echo "DD_PORT=$DD_PORT" >> $WANS_CONFIG;
 }
 
+# creates term script file which will be executed by inted
+create_term_script()
+{
+	echo "#!/bin/bash" > $TERM_SCRIPT
+	echo "" >> $TERM_SCRIPT
+	echo "# set the library path" >> $TERM_SCRIPT
+	echo "export LD_LIBRARY_PATH=/opt/ericsson/lib" >> $TERM_SCRIPT
+	echo "" >> $TERM_SCRIPT
+	echo "# start the actual binary" >> $TERM_SCRIPT
+	echo "$BIN_DIR/vterm $ROOT" >> $TERM_SCRIPT
+
+	# provide execute permission
+	chmod 755 $TERM_SCRIPT
+}
+
 # WANS should be started as root user
 if [ $USER != "root" ]
 then
@@ -49,6 +67,7 @@ fi
 if [ ! -e $WANS_CONFIG ]
 then
 	create_conf_file
+	create_term_script
 fi
 
 # launch the WANS GUI

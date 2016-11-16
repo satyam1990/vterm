@@ -17,15 +17,15 @@ int main(int argc, char* argv[])
 	// validate proper usage
 	if ( argc != 2)
 	{
-		cerr << "Usage: " << argv[0] << " <xml_file_name>" << endl;
+		cerr << "Usage: " << argv[0] << " <NE Simulator root dir>" << endl;
 		exit(0);
 	}
 
-	// store the xml file name
-	string mo_xml_file = argv[1];
+	// store the root dir path
+	string root_dir = argv[1];
 
 	// our terminal
-	Terminal term(mo_xml_file);
+	Terminal term(root_dir);
 
 	// login the user
 	if (term.login() == true)

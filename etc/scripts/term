@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# set library path
-
-# get the MO FILE and MML command resposnse directory path
-
-# start the vterm binary by passing above two vars as arguments
-./vterm $@

@@ -44,3 +44,4 @@ class MMLProcessor {
 		string getDefaultPrompt();
 };
 #endif
+

@@ -14,11 +14,16 @@
 #include "Terminal.hh"
 
 // initializes required stuff for our terminal
-Terminal::Terminal(string mo_xml_file)
+Terminal::Terminal(string root_dir)
 {
+	// set root directory
+	root = root_dir;
 	
 	// set xml file name
-	xmlFile = mo_xml_file;
+	xmlFile = root + "/etc/mo.xml";
+
+	// set mml command response directory
+	mmlRespDir = root + "/mml_command_output";
 
 	// store the initial terminal settings
 	tcgetattr(fileno(stdin), &initial_settings);
@@ -282,3 +287,4 @@ void Terminal::setCommand(string cmd)
 {
 	command = cmd;
 }
+

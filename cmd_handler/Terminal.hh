@@ -33,8 +33,14 @@
 class Terminal {
 
 	private:
+		// WANS root directory
+		string root;
+
 		// XML file name
 		string xmlFile;
+
+		// MML command response directory
+		string mmlRespDir;
 
 		// represents command text till now typed on our terminal
 		string command;
@@ -56,7 +62,7 @@ class Terminal {
 
 	public:
 		// initializes required stuff for our terminal
-		Terminal(string mo_xml_file = "");
+		Terminal(string root_dir);
 
 		// de-allocates necessary stuff
 		~Terminal();
@@ -100,3 +106,4 @@ class Terminal {
 		void setCommand(string cmd);
 };
 #endif
+
