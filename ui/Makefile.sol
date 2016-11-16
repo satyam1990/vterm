@@ -14,7 +14,7 @@ main: $(OBJS)
 MainWindow.o: MainWindow.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh
 	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS)
 
-EventHandler.o: EventHandler.cc EventHandler.hh
+EventHandler.o: EventHandler.cc EventHandler.hh MainWindow.hh
 	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS)
 
 main.o: main.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh

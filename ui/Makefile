@@ -22,7 +22,7 @@ $(OBJS): | $(OBJDIR)
 $(OBJDIR)/MainWindow.o: MainWindow.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh
 	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
-$(OBJDIR)/EventHandler.o: EventHandler.cc EventHandler.hh
+$(OBJDIR)/EventHandler.o: EventHandler.cc EventHandler.hh MainWindow.hh
 	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
 
 $(OBJDIR)/main.o: main.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh

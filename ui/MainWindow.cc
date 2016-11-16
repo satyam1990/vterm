@@ -148,9 +148,9 @@ void MainWindow::setEventHandlers()
 
     // buttons signal handler
     g_signal_connect(G_OBJECT(startButton), "clicked", 
-        G_CALLBACK(EventHandler::startNE), NULL);
+        G_CALLBACK(EventHandler::startNE), this);
     g_signal_connect(G_OBJECT(stopButton), "clicked", 
-        G_CALLBACK(EventHandler::stopNE), NULL);
+        G_CALLBACK(EventHandler::stopNE), this);
     g_signal_connect(G_OBJECT(sendAlarmButton), "clicked", 
         G_CALLBACK(EventHandler::sendAlarmHandler), NULL);
 }
@@ -170,7 +170,7 @@ bool MainWindow::checkNodeStatus()
         nodeStatusLabel = gtk_label_new("STOPPED");
        
         // disable stop button
-        gtk_widget_set_sensitive(stopButton, FALSE);
+		disableStopButton();
 
         return false;
     }
@@ -182,7 +182,48 @@ bool MainWindow::checkNodeStatus()
     nodeStatusLabel = gtk_label_new("RUNNING");
 
     // disable the start button
-    gtk_widget_set_sensitive(startButton, FALSE);
+	disableStartButton();
 
     return true;
+}
+
+// enable start button
+void MainWindow::enableStartButton()
+{
+	gtk_widget_set_sensitive(startButton, TRUE);
+}
+
+// disable start button
+void MainWindow::disableStartButton()
+{
+	gtk_widget_set_sensitive(startButton, FALSE);
+}
+
+// enable stop button
+void MainWindow::enableStopButton()
+{
+	gtk_widget_set_sensitive(stopButton, TRUE);
+}
+
+// disable stop button
+void MainWindow::disableStopButton()
+{
+	gtk_widget_set_sensitive(stopButton, FALSE);
+}
+
+// toggle node status
+void MainWindow::toggleNodeStatus()
+{
+	string status = gtk_label_get_text((GtkLabel*) nodeStatusLabel);
+
+	if (status == "RUNNING")
+	{
+		gtk_label_set_text((GtkLabel*) nodeStatusLabel, "STOPPED");
+		gtk_image_set_from_stock((GtkImage*) nodeStatusIcon, GTK_STOCK_NO, GTK_ICON_SIZE_BUTTON);
+	}
+	else
+	{
+		gtk_label_set_text((GtkLabel*) nodeStatusLabel, "RUNNING");
+		gtk_image_set_from_stock((GtkImage*) nodeStatusIcon, GTK_STOCK_YES, GTK_ICON_SIZE_BUTTON);
+	}
 }

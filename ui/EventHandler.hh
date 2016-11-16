@@ -17,6 +17,8 @@
 #include <iostream>
 #include <gtk/gtk.h>
 
+#include "MainWindow.hh"
+
 using namespace std;
 
 class EventHandler {
@@ -42,12 +44,13 @@ class EventHandler {
 		static void helpHandler();
 
 		// starts the Simulated NODE
-		static void startNE();
+		static void startNE(GtkWidget *widget, gpointer data);
 
 		// stops the Simulated NODE
-		static void stopNE();
+		static void stopNE(GtkWidget *widget, gpointer data);
 
 		// sends default alarm using alarm initiator
 		static void sendAlarmHandler();
 };
 #endif
+

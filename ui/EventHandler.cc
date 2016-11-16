@@ -44,14 +44,34 @@ void EventHandler::helpHandler()
 }
 
 // starts the Simulated NODE
-void EventHandler::startNE()
+void EventHandler::startNE(GtkWidget *widget, gpointer data)
 {
+	MainWindow* mainWin = static_cast<MainWindow*>(data);
+
+	// disable the start button
+	mainWin->disableStartButton();
+
+	// enable the stop button
+	mainWin->enableStopButton();
+
+	// change NODE status
+	mainWin->toggleNodeStatus();
 	cout << "Start NE" << endl;
 }
 
 // stops the Simulated NODE
-void EventHandler::stopNE()
+void EventHandler::stopNE(GtkWidget *widget, gpointer data)
 {
+	MainWindow* mainWin = static_cast<MainWindow*>(data);
+
+	// disable the stop button
+	mainWin->disableStopButton();
+
+	// enable the start button
+	mainWin->enableStartButton();
+
+	// change NODE status
+	mainWin->toggleNodeStatus();
 	cout << "Stop NE" << endl;
 }
 

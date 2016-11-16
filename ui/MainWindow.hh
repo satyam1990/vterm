@@ -13,8 +13,8 @@
 #if !defined(MAIN_WINDOW_HH)
 #define MAIN_WINDOW_HH
 
-#define ETC_SERVICES "/etc/services"
-#define NE_MAGIC_TEXT "vterm"
+#define ETC_SERVICES "/etc/inet/services"
+#define NE_MAGIC_TEXT "_wans_5000"
 
 #include <gtk/gtk.h>
 #include <iostream>
@@ -100,5 +100,20 @@ class MainWindow {
 
         // checks whether the NODE is running or stopped
         bool checkNodeStatus();
+
+		// enable start button
+		void enableStartButton();
+
+		// disable start button
+		void disableStartButton();
+
+		// enable stop button
+		void enableStopButton();
+
+		// disable stop button
+		void disableStopButton();
+
+		// toggle node status
+		void toggleNodeStatus();
 };
 #endif
