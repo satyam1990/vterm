@@ -15,9 +15,11 @@
 
 #define DELIMITER "="
 
+#include <iostream>
 #include <cctype>
 #include <string>
 #include <fstream>
+#include <cstdlib>
 
 using namespace std;
 
