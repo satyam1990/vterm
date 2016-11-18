@@ -23,10 +23,27 @@ subdirs:
 			exit 1; \
 		fi; \
 	done
+	# make the ui code separately
+	$(MAKE) -C ui
+
+
+install:
+	rm -rf wans
+	mkdir wans
+	mkdir wans/bin
+	mkdir wans/etc
+	mkdir wans/mml_command_output
+	cp -r $(BINDIR)/vterm deps/emt_tgw_telnetd ui/$(BINDIR)/main  wans/bin
+	cp etc/scripts/launch_gui.sh wans
+	cp etc/mo.xml wans/etc
+	tar -cvf wans.tar wans
+	rm -rf wans
+	@echo -e "\nWANS Tarball Successfully prepared!"
 
 $(BINDIR):
 	mkdir $(BINDIR)
 
 clean:
 	$(foreach dir, $(DIRS), cd $(dir); make clean; cd ..;)
-	rm -rf $(BINDIR)
+	$(MAKE) clean -C ui
+	rm -rf $(BINDIR) wans.tar
