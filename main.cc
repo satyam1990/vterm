@@ -17,15 +17,15 @@ int main(int argc, char* argv[])
 	// validate proper usage
 	if ( argc != 2)
 	{
-		cerr << "Usage: " << argv[0] << " <NE Simulator root dir>" << endl;
+		cerr << "Usage: " << argv[0] << " <NE Simulator wans.conf file path>" << endl;
 		exit(0);
 	}
 
-	// store the root dir path
-	string root_dir = argv[1];
+	// store the wans config file path
+	string configFile = argv[1];
 
 	// our terminal
-	Terminal term(root_dir);
+	Terminal term(configFile);
 
 	// login the user
 	if (term.login() == true)

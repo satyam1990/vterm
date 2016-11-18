@@ -35,10 +35,11 @@ create_conf_file()
 {
 	echo "Creating config file"
 	echo "ROOT=$ROOT" > $WANS_CONFIG
-	echo "MO_FILE=$MO_FILE" >> $WANS_CONFIG;
-	echo "MML_PATH=$MML_PATH" >> $WANS_CONFIG;
-	echo "DD_IP=$DD_IP" >> $WANS_CONFIG;
-	echo "DD_PORT=$DD_PORT" >> $WANS_CONFIG;
+	echo "BIN_DIR=$BIN_DIR" >> $WANS_CONFIG
+	echo "MO_FILE=$MO_FILE" >> $WANS_CONFIG
+	echo "MML_PATH=$MML_PATH" >> $WANS_CONFIG
+	echo "DD_IP=$DD_IP" >> $WANS_CONFIG
+	echo "DD_PORT=$DD_PORT" >> $WANS_CONFIG
 }
 
 # creates term script file which will be executed by inted
@@ -50,7 +51,7 @@ create_term_script()
 	echo "export LD_LIBRARY_PATH=/opt/ericsson/lib" >> $TERM_SCRIPT
 	echo "" >> $TERM_SCRIPT
 	echo "# start the actual binary" >> $TERM_SCRIPT
-	echo "$BIN_DIR/vterm $ROOT" >> $TERM_SCRIPT
+	echo "$BIN_DIR/vterm $WANS_CONFIG" >> $TERM_SCRIPT
 
 	# provide execute permission
 	chmod 755 $TERM_SCRIPT
@@ -71,4 +72,4 @@ then
 fi
 
 # launch the WANS GUI
-$BIN_DIR/main
+$BIN_DIR/main $WANS_CONFIG

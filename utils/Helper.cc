@@ -120,3 +120,35 @@ string Helper::getFileContents(string filename)
 
 	return contents;
 }
+
+// reads the variable value from wans config file
+string Helper::getVar(string configFile, string var)
+{
+	string line, value;
+	size_t index;
+
+	// open config file to read
+    ifstream inFile(configFile.c_str(), ifstream::in);
+
+    if (inFile)
+    {
+        while (inFile >> line)
+        {
+            index = line.find(var);
+
+			// get the var value if found
+            if (index != string::npos)
+            {
+                index = line.find(DELIMITER);
+                value = line.substr(index+1);
+            }
+        }
+    }
+    else
+    {
+        cerr << "Error: Can't read WANS conf file!" << endl;
+		exit(-1);
+    }
+
+	return value;
+}

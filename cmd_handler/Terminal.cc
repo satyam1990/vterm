@@ -14,16 +14,19 @@
 #include "Terminal.hh"
 
 // initializes required stuff for our terminal
-Terminal::Terminal(string root_dir)
+Terminal::Terminal(string conf)
 {
+	// set wans conf file path
+	wansConf = conf;
+
 	// set root directory
-	root = root_dir;
+	root = Helper::getVar(wansConf, "ROOT");
 	
-	// set xml file name
-	xmlFile = root + "/etc/mo.xml";
+	// set MO xml file name
+	xmlFile = Helper::getVar(wansConf, "MO_FILE");
 
 	// set mml command response directory
-	mmlRespDir = root + "/mml_command_output";
+	mmlRespDir = Helper::getVar(wansConf, "MML_PATH");
 
 	// store the initial terminal settings
 	tcgetattr(fileno(stdin), &initial_settings);

@@ -28,6 +28,7 @@ install:
 	mkdir wans/etc
 	mkdir wans/mml_command_output
 	cp -r vterm deps/emt_tgw_telnetd ui/main etc/scripts/* wans/bin
+	cp ui/scripts/* wans/bin
 	cp etc/mo.xml wans/etc
 	mv wans/bin/launch_gui.sh wans
 	tar -cvf wans.tar wans

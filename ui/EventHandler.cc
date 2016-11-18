@@ -54,9 +54,14 @@ void EventHandler::startNE(GtkWidget *widget, gpointer data)
 	// enable the stop button
 	mainWin->enableStopButton();
 
+	// start the NE using start script
+	string binDir = Helper::getVar(mainWin->getConfFile(), "BIN_DIR");
+	string cmd = binDir + "/startNE.sh" + " " + binDir;
+	system(cmd.c_str());
+
 	// change NODE status
 	mainWin->toggleNodeStatus();
-	cout << "Start NE" << endl;
+	cout << "NE Started" << endl;
 }
 
 // stops the Simulated NODE
@@ -70,9 +75,14 @@ void EventHandler::stopNE(GtkWidget *widget, gpointer data)
 	// enable the start button
 	mainWin->enableStartButton();
 
+	// stop the NE using stop script
+	string binDir = Helper::getVar(mainWin->getConfFile(), "BIN_DIR");
+	string cmd = binDir + "/stopNE.sh";
+	system(cmd.c_str());
+
 	// change NODE status
 	mainWin->toggleNodeStatus();
-	cout << "Stop NE" << endl;
+	cout << "NE Stopped" << endl;
 }
 
 // sends default alarm using alarm initiator

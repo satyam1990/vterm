@@ -15,6 +15,7 @@
 #define EVENT_HANDLER_HH
 
 #include <iostream>
+#include <cstdlib>
 #include <gtk/gtk.h>
 
 #include "MainWindow.hh"

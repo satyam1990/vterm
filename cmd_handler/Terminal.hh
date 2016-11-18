@@ -33,10 +33,13 @@
 class Terminal {
 
 	private:
+		// WANS conf file
+		string wansConf;
+
 		// WANS root directory
 		string root;
 
-		// XML file name
+		// MO XML file name
 		string xmlFile;
 
 		// MML command response directory
@@ -62,7 +65,7 @@ class Terminal {
 
 	public:
 		// initializes required stuff for our terminal
-		Terminal(string root_dir);
+		Terminal(string conf);
 
 		// de-allocates necessary stuff
 		~Terminal();

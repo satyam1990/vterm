@@ -13,8 +13,11 @@
 #include "MainWindow.hh"
 
 // sets up GUI main window
-MainWindow::MainWindow()
+MainWindow::MainWindow(string confFile)
 {
+	// store wans config file path
+	wansConfFile = confFile;
+
     // create toplevel window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
@@ -226,4 +229,11 @@ void MainWindow::toggleNodeStatus()
 		gtk_label_set_text((GtkLabel*) nodeStatusLabel, "RUNNING");
 		gtk_image_set_from_stock((GtkImage*) nodeStatusIcon, GTK_STOCK_YES, GTK_ICON_SIZE_BUTTON);
 	}
+}
+
+
+// returns wans config file path
+string MainWindow::getConfFile()
+{
+	return wansConfFile;
 }

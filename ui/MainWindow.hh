@@ -14,7 +14,7 @@
 #define MAIN_WINDOW_HH
 
 #define ETC_SERVICES "/etc/inet/services"
-#define NE_MAGIC_TEXT "_wans_5000"
+#define NE_MAGIC_TEXT "wans_5000"
 
 #include <gtk/gtk.h>
 #include <iostream>
@@ -27,6 +27,9 @@ using namespace std;
 class MainWindow {
 
     private:
+
+		// wans conf file
+		string wansConfFile;
 
         // main window toplevel
         GtkWidget* window;
@@ -93,7 +96,7 @@ class MainWindow {
 
     public:
         // sets up GUI main window
-        MainWindow();
+        MainWindow(string confFile);
 
         // sets up signal handlers for widgets
         void setEventHandlers();
@@ -115,5 +118,8 @@ class MainWindow {
 
 		// toggle node status
 		void toggleNodeStatus();
+
+		// returns wans config file path
+		string getConfFile();
 };
 #endif
