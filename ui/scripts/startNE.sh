@@ -27,7 +27,7 @@ inetconv -f
 
 # verify wans service state
 state=$(svcs -a | grep wans_5000 | awk '{ print $1 }')
-if [ $state != "online" ]
+if [ "$state" != "online" ]
 then
 	# enable the service as not already in online state
 	svcadm disable wans_5000/tcp

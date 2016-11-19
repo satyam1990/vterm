@@ -58,7 +58,7 @@ create_term_script()
 }
 
 # WANS should be started as root user
-if [ $USER != "root" ]
+if [ "$USER" != "root" ]
 then
 	echo "You need to be root to start WANS GUI!";
 	exit -1;
