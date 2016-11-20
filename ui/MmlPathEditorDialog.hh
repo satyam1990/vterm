@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * MoPathEditorDialog.hh
+ * MmlPathEditorDialog.hh
  *
  * Author: msatyam
  *
