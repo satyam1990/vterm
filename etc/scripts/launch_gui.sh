@@ -42,7 +42,7 @@ create_conf_file()
 	echo "DD_PORT=$DD_PORT" >> $WANS_CONFIG
 }
 
-# creates term script file which will be executed by inted
+# creates term script file which will be executed by inetd
 create_term_script()
 {
 	echo "#!/bin/bash" > $TERM_SCRIPT

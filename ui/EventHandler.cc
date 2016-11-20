@@ -7,26 +7,35 @@
  * November, 2016
  *
  * Implements the event handlers for processing signals emitted by
- * different widgets
+ * different widgets only from Main Window
  *
  * ***************************************************************************/
 
 #include "EventHandler.hh"
 
+#include "MoPathEditorDialog.hh"
+#include "MmlPathEditorDialog.hh"
+
 // launches edit MO path dialog
-void EventHandler::editMOPath()
+void EventHandler::editMOPath(GtkWidget *widget, gpointer data)
 {
 	cout << "Edit MO Path Handler" << endl;
+
+	MainWindow* mainWin = static_cast<MainWindow*>(data);
+	MoPathEditorDialog moEditor(mainWin->getConfFile());
 }
 
 // launches dialog for editing MML reponse path directory
-void EventHandler::editMMLPath()
+void EventHandler::editMMLPath(GtkWidget *widget, gpointer data)
 {
 	cout << "Edit MML Path Handler" << endl;
+
+	MainWindow* mainWin = static_cast<MainWindow*>(data);
+	MmlPathEditorDialog mmlEditor(mainWin->getConfFile());
 }
 
 // launches dialog for editing default destination
-void EventHandler::editDefaultDestination()
+void EventHandler::editDefaultDestination(GtkWidget *widget, gpointer data)
 {
 	cout << "Edit Default Destination Handler" << endl;
 }

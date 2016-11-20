@@ -58,18 +58,18 @@ MainWindow::MainWindow(string confFile)
     optionsMenu = gtk_menu_new();
     helpMenu = gtk_menu_new();
 
-    fileMenuItem = gtk_menu_item_new_with_label("File");
+    fileMenuItem = gtk_menu_item_new_with_mnemonic("_File");
     quitMenuItem = gtk_menu_item_new_with_label("Quit");
 
-    editMenuItem = gtk_menu_item_new_with_label("Edit");
-    moPathMenuItem = gtk_menu_item_new_with_label("MO File Path");
-    mmlPathMenuItem = gtk_menu_item_new_with_label("MML Response File Path");
-    defaultDestinationMenuItem = gtk_menu_item_new_with_label("Default Destination");
+    editMenuItem = gtk_menu_item_new_with_mnemonic("_Edit");
+    moPathMenuItem = gtk_menu_item_new_with_mnemonic("_MO File Path");
+    mmlPathMenuItem = gtk_menu_item_new_with_mnemonic("MM_L Response File Path");
+    defaultDestinationMenuItem = gtk_menu_item_new_with_mnemonic("_Default Destination");
 
-    optionsMenuItem = gtk_menu_item_new_with_label("Options");
-    customAlarmMenuItem = gtk_menu_item_new_with_label("Send Custom Alarms");
+    optionsMenuItem = gtk_menu_item_new_with_mnemonic("_Options");
+    customAlarmMenuItem = gtk_menu_item_new_with_mnemonic("Send Custom _Alarms");
 
-    helpMenuItem = gtk_menu_item_new_with_label("Help");
+    helpMenuItem = gtk_menu_item_new_with_mnemonic("_Help");
     helpContentsMenuItem = gtk_menu_item_new_with_label("Contents");
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(fileMenuItem), fileMenu);
@@ -139,11 +139,11 @@ void MainWindow::setEventHandlers()
     g_signal_connect(G_OBJECT(quitMenuItem), "activate", 
         G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(moPathMenuItem), "activate", 
-        G_CALLBACK(EventHandler::editMOPath), NULL);
+        G_CALLBACK(EventHandler::editMOPath), this);
     g_signal_connect(G_OBJECT(mmlPathMenuItem), "activate", 
-        G_CALLBACK(EventHandler::editMMLPath), NULL);
+        G_CALLBACK(EventHandler::editMMLPath), this);
     g_signal_connect(G_OBJECT(defaultDestinationMenuItem), "activate", 
-        G_CALLBACK(EventHandler::editDefaultDestination), NULL);
+        G_CALLBACK(EventHandler::editDefaultDestination), this);
     g_signal_connect(G_OBJECT(customAlarmMenuItem), "activate", 
         G_CALLBACK(EventHandler::customAlarmHandler), NULL);
     g_signal_connect(G_OBJECT(helpContentsMenuItem), "activate", 

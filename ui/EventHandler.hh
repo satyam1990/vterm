@@ -7,7 +7,7 @@
  * November, 2016
  *
  * Implements the event handlers for processing signals emitted by
- * different widgets
+ * different widgets only from Main Window
  *
  * ***************************************************************************/
 
@@ -26,17 +26,14 @@ class EventHandler {
 
 	public:
 
-		// closes main window
-		static void onWindowClose(GtkWidget* widget, gpointer data);
-
 		// launches edit MO path dialog
-		static void editMOPath();
+		static void editMOPath(GtkWidget *widget, gpointer data);
 
 		// launches dialog for editing MML reponse path directory
-		static void editMMLPath();
+		static void editMMLPath(GtkWidget *widget, gpointer data);
 
 		// launches dialog for editing default destination
-		static void editDefaultDestination();
+		static void editDefaultDestination(GtkWidget *widget, gpointer data);
 
 		// launches dialog to send custom alarms
 		static void customAlarmHandler();

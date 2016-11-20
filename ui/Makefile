@@ -1,6 +1,6 @@
 CXX := g++
 
-CXXFLAGS := 
+CXXFLAGS := -ggdb
 
 INCLUDES := -I../utils
 
@@ -10,7 +10,8 @@ BINDIR := bin
 
 OBJDIR := objs
 
-OBJS := $(addprefix $(OBJDIR)/, MainWindow.o EventHandler.o  main.o)
+OBJS := $(addprefix $(OBJDIR)/, MainWindow.o EventHandler.o \
+			MoPathEditorDialog.o MmlPathEditorDialog.o main.o)
 
 HELPER_OBJ := ../utils/$(OBJDIR)/*.o
 
@@ -20,13 +21,19 @@ $(BINDIR)/main: $(OBJS) | $(BINDIR)
 $(OBJS): | $(OBJDIR)
 
 $(OBJDIR)/MainWindow.o: MainWindow.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh
-	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
+	$(CXX) $(CXXFLAGS) -o $@ -c $< $(INCLUDES) $(LIBS)
 
-$(OBJDIR)/EventHandler.o: EventHandler.cc EventHandler.hh MainWindow.hh
-	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
+$(OBJDIR)/MoPathEditorDialog.o: MoPathEditorDialog.cc MoPathEditorDialog.hh ../utils/Helper.hh
+	$(CXX) $(CXXFLAGS) -o $@ -c $< $(INCLUDES) $(LIBS)
+
+$(OBJDIR)/MmlPathEditorDialog.o: MmlPathEditorDialog.cc MmlPathEditorDialog.hh ../utils/Helper.hh
+	$(CXX) $(CXXFLAGS) -o $@ -c $< $(INCLUDES) $(LIBS)
+
+$(OBJDIR)/EventHandler.o: EventHandler.cc EventHandler.hh MainWindow.hh MoPathEditorDialog.hh MmlPathEditorDialog.hh
+	$(CXX) $(CXXFLAGS) -o $@ -c $< $(INCLUDES) $(LIBS)
 
 $(OBJDIR)/main.o: main.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh
-	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS) $(CXXFLAGS)
+	$(CXX) $(CXXFLAGS) -o $@ -c $< $(INCLUDES) $(LIBS)
 
 $(BINDIR):
 	mkdir $(BINDIR)
