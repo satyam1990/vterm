@@ -72,5 +72,16 @@ string MoPathEditorDialog::getConfFile()
 // edits MO File Path as entered by user
 void MoPathEditorDialog::editMoFilePath()
 {
+	// get the bin dir path
+	string binDir = Helper::getVar(getConfFile(), "BIN_DIR");
+
+	// get the textbox value
+	string textBoxValue = gtk_entry_get_text(GTK_ENTRY(moPathTextBox));
+
+	// create the command
+	string cmd = binDir + "/" + "editConf.sh " + getConfFile() + " MO_FILE " + textBoxValue;
+
+	// execute the command
+	system(cmd.c_str());
     cout << "MO File Path Updated" << endl;
 }

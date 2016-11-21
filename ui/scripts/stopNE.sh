@@ -9,11 +9,11 @@ chmod 755 $INETD_CONF
 chmod 755 $SERVICES
 
 # remove the wans entries from both conf files
-sed '/wans_5000/d' $INETD_CONF > /tmp/inetd.old
-cp /tmp/inetd.old $INETD_CONF
+sed '/wans_5000/d' $INETD_CONF > /tmp/inetd.new
+cp /tmp/inetd.new $INETD_CONF
 
-sed '/wans_5000/d' $SERVICES > /tmp/services.old
-cp /tmp/services.old $SERVICES
+sed '/wans_5000/d' $SERVICES > /tmp/services.new
+cp /tmp/services.new $SERVICES
 
 # re-generate inetd configuration
 inetconv -f

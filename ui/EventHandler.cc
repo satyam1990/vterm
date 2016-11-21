@@ -15,6 +15,7 @@
 
 #include "MoPathEditorDialog.hh"
 #include "MmlPathEditorDialog.hh"
+#include "DdEditorDialog.hh"
 
 // launches edit MO path dialog
 void EventHandler::editMOPath(GtkWidget *widget, gpointer data)
@@ -38,6 +39,9 @@ void EventHandler::editMMLPath(GtkWidget *widget, gpointer data)
 void EventHandler::editDefaultDestination(GtkWidget *widget, gpointer data)
 {
 	cout << "Edit Default Destination Handler" << endl;
+
+	MainWindow* mainWin = static_cast<MainWindow*>(data);
+	DdEditorDialog ddEditor(mainWin->getConfFile());
 }
 
 // launches dialog to send custom alarms

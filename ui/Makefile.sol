@@ -1,7 +1,7 @@
 CXX = /vobs/ossrc_3pp/freeware/studio11/SUNWspro/bin/CC
 
 OBJS = MainWindow.o EventHandler.o MoPathEditorDialog.o \
-		MmlPathEditorDialog.o main.o
+		MmlPathEditorDialog.o  DdEditorDialog.o main.o
 
 HELPER_OBJ = ../utils/*.o
 
@@ -22,6 +22,9 @@ MoPathEditorDialog.o: MoPathEditorDialog.cc MoPathEditorDialog.hh ../utils/Helpe
 	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS)
 
 MmlPathEditorDialog.o: MmlPathEditorDialog.cc MmlPathEditorDialog.hh ../utils/Helper.hh
+	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS)
+
+DdEditorDialog.o: DdEditorDialog.cc DdEditorDialog.hh ../utils/Helper.hh
 	$(CXX) -o $@ -c $< $(INCLUDES) $(LIBS)
 
 main.o: main.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh

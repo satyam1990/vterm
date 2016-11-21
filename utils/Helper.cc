@@ -140,7 +140,7 @@ string Helper::getVar(string configFile, string var)
             if (index != string::npos)
             {
                 index = line.find(DELIMITER);
-                value = line.substr(index+1);
+                value = stripSpace(line.substr(index+1));
             }
         }
     }
