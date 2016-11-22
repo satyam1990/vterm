@@ -12,10 +12,7 @@
  * ***************************************************************************/
 
 #include "AlarmInitiator.hh"
-/*
- = {
-								
-                                };*/
+ 
 // intializes required data
 AlarmInitiator::AlarmInitiator(string confFile)
 {
