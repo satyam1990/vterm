@@ -20,7 +20,7 @@ DdEditorDialog::DdEditorDialog(string confFile)
 	wansConfFile = confFile;
 
     // create the MO path editor main dialog window
-    dialog = gtk_dialog_new_with_buttons("Edit MO Path", 
+    dialog = gtk_dialog_new_with_buttons("Edit Default Destination", 
                                         NULL, 
                                         GTK_DIALOG_MODAL, 
                                         GTK_STOCK_OK, 

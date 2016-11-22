@@ -63,7 +63,7 @@ MainWindow::MainWindow(string confFile)
 
     editMenuItem = gtk_menu_item_new_with_mnemonic("_Edit");
     moPathMenuItem = gtk_menu_item_new_with_mnemonic("_MO File Path");
-    mmlPathMenuItem = gtk_menu_item_new_with_mnemonic("MM_L Response File Path");
+    mmlPathMenuItem = gtk_menu_item_new_with_mnemonic("MM_L Response Directory Path");
     defaultDestinationMenuItem = gtk_menu_item_new_with_mnemonic("_Default Destination");
 
     optionsMenuItem = gtk_menu_item_new_with_mnemonic("_Options");
