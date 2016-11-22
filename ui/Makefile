@@ -11,7 +11,7 @@ BINDIR := bin
 OBJDIR := objs
 
 OBJS := $(addprefix $(OBJDIR)/, MainWindow.o EventHandler.o \
-			MoPathEditorDialog.o MmlPathEditorDialog.o main.o)
+			MoPathEditorDialog.o MmlPathEditorDialog.o  DdEditorDialog.o main.o)
 
 HELPER_OBJ := ../utils/$(OBJDIR)/*.o
 
@@ -30,6 +30,9 @@ $(OBJDIR)/MmlPathEditorDialog.o: MmlPathEditorDialog.cc MmlPathEditorDialog.hh .
 	$(CXX) $(CXXFLAGS) -o $@ -c $< $(INCLUDES) $(LIBS)
 
 $(OBJDIR)/EventHandler.o: EventHandler.cc EventHandler.hh MainWindow.hh MoPathEditorDialog.hh MmlPathEditorDialog.hh
+	$(CXX) $(CXXFLAGS) -o $@ -c $< $(INCLUDES) $(LIBS)
+
+$(OBJDIR)/DdEditorDialog.o: DdEditorDialog.cc DdEditorDialog.hh ../utils/Helper.hh
 	$(CXX) $(CXXFLAGS) -o $@ -c $< $(INCLUDES) $(LIBS)
 
 $(OBJDIR)/main.o: main.cc MainWindow.hh EventHandler.hh ../utils/Helper.hh
