@@ -36,10 +36,10 @@ class EventHandler {
 		static void editDefaultDestination(GtkWidget *widget, gpointer data);
 
 		// launches dialog to send custom alarms
-		static void customAlarmHandler();
+		static void customAlarmHandler(GtkWidget *widget, gpointer data);
 
 		// launches help dialog
-		static void helpHandler();
+		static void helpHandler(GtkWidget *widget, gpointer data);
 
 		// starts the Simulated NODE
 		static void startNE(GtkWidget *widget, gpointer data);
@@ -48,7 +48,7 @@ class EventHandler {
 		static void stopNE(GtkWidget *widget, gpointer data);
 
 		// sends default alarm using alarm initiator
-		static void sendAlarmHandler();
+		static void sendAlarmHandler(GtkWidget *widget, gpointer data);
 };
 #endif
 

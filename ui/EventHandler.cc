@@ -45,13 +45,13 @@ void EventHandler::editDefaultDestination(GtkWidget *widget, gpointer data)
 }
 
 // launches dialog to send custom alarms
-void EventHandler::customAlarmHandler()
+void EventHandler::customAlarmHandler(GtkWidget *widget, gpointer data)
 {
 	cout << "Send Custom Alarm Handler" << endl;
 }
 
 // launches help dialog
-void EventHandler::helpHandler()
+void EventHandler::helpHandler(GtkWidget *widget, gpointer data)
 {
 	cout << "Help Handler" << endl;
 }
@@ -99,7 +99,7 @@ void EventHandler::stopNE(GtkWidget *widget, gpointer data)
 }
 
 // sends default alarm using alarm initiator
-void EventHandler::sendAlarmHandler()
+void EventHandler::sendAlarmHandler(GtkWidget *widget, gpointer data)
 {
 	cout << "Send Alarm Handler" << endl;
 }
