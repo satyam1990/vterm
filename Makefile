@@ -23,8 +23,9 @@ subdirs:
 			exit 1; \
 		fi; \
 	done
-	# make the ui code separately
+	# make the ui and alarm initiator code separately
 	$(MAKE) -C ui
+	$(MAKE) -C alarm_initiator
 
 
 install:
@@ -47,4 +48,5 @@ $(BINDIR):
 clean:
 	$(foreach dir, $(DIRS), cd $(dir); make clean; cd ..;)
 	$(MAKE) clean -C ui
+	$(MAKE) clean -C alarm_initiator
 	rm -rf $(BINDIR) wans.tar
