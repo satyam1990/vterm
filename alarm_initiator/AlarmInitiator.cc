@@ -96,9 +96,9 @@ void AlarmInitiator::buildAlarm()
 // sends alarm to the OSS server
 bool AlarmInitiator::sendAlarm()
 {
-	int result = write(ossServerfd, alarm.c_str(), alarm.length());
+	int result = write(getfd(), getAlarm().c_str(), getAlarm().length());
 
-	if (result == alarm.length())
+	if (result == getAlarm().length())
 	{
 		return true;
 	}

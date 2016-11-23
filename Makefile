@@ -36,6 +36,7 @@ install:
 	mkdir wans/mml_command_output
 	cp $(BINDIR)/vterm deps/emt_tgw_telnetd ui/$(BINDIR)/main  wans/bin
 	cp ui/scripts/* wans/bin
+	cp alarm_initiator/$(BINDIR)/alarmInitiator wans/bin
 	cp etc/scripts/launch_gui.sh wans
 	cp etc/mo.xml wans/etc
 	tar -cvf wans.tar wans

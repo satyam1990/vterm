@@ -8,7 +8,7 @@ LIBS = -lxerces-c_2_7
 
 BINDIR = bin
 
-DIRS = cmd_handler utils mo_parser ui
+DIRS = cmd_handler utils mo_parser ui alarm_initiator
 
 INCLUDES = -I/vobs/ossrc_3pp/cif_3pp/borland_enterprise_server/include \
 			-Icmd_handler \
@@ -29,6 +29,7 @@ install:
 	mkdir wans/mml_command_output
 	cp -r vterm deps/emt_tgw_telnetd ui/main etc/scripts/* wans/bin
 	cp ui/scripts/* wans/bin
+	cp alarm_initiator/alarmInitiator wans/bin
 	cp etc/mo.xml wans/etc
 	mv wans/bin/launch_gui.sh wans
 	tar -cvf wans.tar wans
