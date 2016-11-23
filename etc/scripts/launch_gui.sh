@@ -28,7 +28,7 @@ MML_PATH=$ROOT/mml_command_output
 DD_IP=127.0.0.1
 
 # default destination default PORT
-DD_PORT=50184
+DD_PORT=65505
 
 # creates config file with default data
 create_conf_file()

@@ -101,5 +101,15 @@ void EventHandler::stopNE(GtkWidget *widget, gpointer data)
 // sends default alarm using alarm initiator
 void EventHandler::sendAlarmHandler(GtkWidget *widget, gpointer data)
 {
-	cout << "Send Alarm Handler" << endl;
+	MainWindow* mainWin = static_cast<MainWindow*>(data);
+	
+	// send alarm using alarmInitiator binary
+	string binDir = Helper::getVar(mainWin->getConfFile(), "BIN_DIR");
+
+	string cmd = binDir + "/alarmInitiator " + mainWin->getConfFile();
+
+	// send the alarm
+	system(cmd.c_str());
+
+	cout << "Alarm Sent" << endl;
 }

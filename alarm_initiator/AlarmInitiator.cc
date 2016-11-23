@@ -27,7 +27,6 @@ AlarmInitiator::AlarmInitiator(string confFile)
 	alarm = "";
 
 	alarmData.push_back(":type=alarm");
-	alarmData.push_back(":type=alarm");
 	alarmData.push_back("cpside=ex");
 	alarmData.push_back("device=AD-0");
 	alarmData.push_back("prca=42");
@@ -88,9 +87,6 @@ void AlarmInitiator::buildAlarm()
 			alarm +=",";
 		}
 	}
-
-	cout << "Alarm Length: " << alarm.length() << endl;
-
 }
 
 // sends alarm to the OSS server

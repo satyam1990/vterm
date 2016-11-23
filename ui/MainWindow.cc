@@ -145,9 +145,9 @@ void MainWindow::setEventHandlers()
     g_signal_connect(G_OBJECT(defaultDestinationMenuItem), "activate", 
         G_CALLBACK(EventHandler::editDefaultDestination), this);
     g_signal_connect(G_OBJECT(customAlarmMenuItem), "activate", 
-        G_CALLBACK(EventHandler::customAlarmHandler), NULL);
+        G_CALLBACK(EventHandler::customAlarmHandler), this);
     g_signal_connect(G_OBJECT(helpContentsMenuItem), "activate", 
-        G_CALLBACK(EventHandler::helpHandler), NULL);
+        G_CALLBACK(EventHandler::helpHandler), this);
 
     // buttons signal handler
     g_signal_connect(G_OBJECT(startButton), "clicked", 
@@ -155,7 +155,7 @@ void MainWindow::setEventHandlers()
     g_signal_connect(G_OBJECT(stopButton), "clicked", 
         G_CALLBACK(EventHandler::stopNE), this);
     g_signal_connect(G_OBJECT(sendAlarmButton), "clicked", 
-        G_CALLBACK(EventHandler::sendAlarmHandler), NULL);
+        G_CALLBACK(EventHandler::sendAlarmHandler), this);
 }
 
 // return true when simulator running else false
