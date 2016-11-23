@@ -31,16 +31,16 @@ $ make install
 Above will create package named "wans.tar" in the code base directory.
 
 Setup Guidelines:
-1. Copy the package "wans.tar" in the developement server.
-2. Extract the package using below command:
+  - Copy the package "wans.tar" in the developement server.
+  - Extract the package using below command:
 ```sh
 $ tar -xvf wans.tar
 ```
-3. Move to the directory where package got extracted:
+  - Move to the directory where package got extracted:
 ```sh
 $ cd wans
 ```
-4. Start Simulator using the GUI with below command:
+  - Start Simulator using the GUI with below command:
 ```sh
 $ ./launch_gui.sh
 ```
