@@ -31,7 +31,7 @@ $ make install
 Above will create package named "wans.tar" in the code base directory.
 
 Setup Guidelines:
-  - Copy the package "wans.tar" in the developement server.
+  - Copy the package "wans.tar" in the test server.
   - Extract the package using below command:
 ```sh
 $ tar -xvf wans.tar
