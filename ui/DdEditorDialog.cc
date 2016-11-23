@@ -87,5 +87,26 @@ string DdEditorDialog::getConfFile()
 // edits MO File Path as entered by user
 void DdEditorDialog::editDefaultDestination()
 {
+	// get the bin dir path
+	string binDir = Helper::getVar(getConfFile(), "BIN_DIR");
+
+	// get ip text box value
+	string ip = gtk_entry_get_text(GTK_ENTRY(ipTextBox));
+
+	// get port text box value
+	string port = gtk_entry_get_text(GTK_ENTRY(portTextBox));
+
+	// create the command to update wans conf file DD_IP
+	string cmd = binDir + "/" + "editConf.sh " + getConfFile() + " DD_IP " + ip;
+	
+	// update ip
+	system(cmd.c_str());
+	
+	// create the command to update wans conf file DD_PORT
+	cmd = binDir + "/" + "editConf.sh " + getConfFile() + " DD_PORT " + port;
+	
+	// update port
+	system(cmd.c_str());
+
     cout << "Default Destination Updated" << endl;
 }

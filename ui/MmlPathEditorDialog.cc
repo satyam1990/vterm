@@ -72,5 +72,16 @@ string MmlPathEditorDialog::getConfFile()
 // edits MML Directory Path as entered by user
 void MmlPathEditorDialog::editMmlDirectoryPath()
 {
+	// get the bin dir path
+	string binDir = Helper::getVar(getConfFile(), "BIN_DIR");
+
+	// get the textbox value
+	string textBoxValue = gtk_entry_get_text(GTK_ENTRY(mmlPathTextBox));
+
+	// create the command
+	string cmd = binDir + "/" + "editConf.sh " + getConfFile() + " MML_PATH " + textBoxValue;
+
+	// execute the command
+	system(cmd.c_str());
     cout << "MML Directory Path Updated" << endl;
 }
