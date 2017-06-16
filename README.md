@@ -1,6 +1,6 @@
 # NE Simulator (vterm)
 
-vterm project simulates behaviour of a real telecom network element majorily it simulates the terminal behaviour therefore the sort name vterm (virtual terminal).
+vterm project simulates behaviour of a real telecom network element majorily it simulates the terminal behaviour therefore this short name vterm (virtual terminal).
 It also has features like to send alarm (A Telecom thing).
 
 Operating System Supported:
