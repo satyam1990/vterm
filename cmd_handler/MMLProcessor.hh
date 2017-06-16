@@ -23,8 +23,14 @@ using namespace std;
 #include "Helper.hh"
 
 class MMLProcessor {
+
+	private:
+		string mmlRespDir;
     
     public:
+		// initialize the required stuff
+		MMLProcessor(string mmlDir);
+
         // returns response of MML command
         MMLResponse getResponse(string command);
 
@@ -39,6 +45,9 @@ class MMLProcessor {
 
         // reads the MML response from file and embeds into response object
         MMLResponse processMML(string command);
+
+		// check if response is delayed or not
+		bool isDelayed(string & response);
 
 		// gets the default MML prompt
 		string getDefaultPrompt();

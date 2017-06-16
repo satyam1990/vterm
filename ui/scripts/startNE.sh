@@ -10,9 +10,22 @@ fi
 # inetd configuration files
 INETD_CONF=/etc/inet/inetd.conf
 SERVICES=/etc/inet/services
+SOLARIS_VERSION=$(uname -r | cut -d'.' -f2)
 
 # wans bin dir path
 BIN_DIR=$1
+ETC_DIR=$BIN_DIR/../etc
+MANIFEST_FILE=wans_5000-tcp.xml
+MANIFEST_FILE_TEMPLATE=$MANIFEST_FILE.template
+
+if [ $SOLARIS_VERSION -gt 10 ]
+then
+	# make manifest file concreate with correct BIN_DIR
+	sed "s~<BIN_DIR>~$BIN_DIR~g" $ETC_DIR/$MANIFEST_FILE_TEMPLATE > $ETC_DIR/$MANIFEST_FILE
+
+	# import manifest file firt here in sol11 and above
+	svccfg import $ETC_DIR/$MANIFEST_FILE
+fi
 
 # give write permission to both conf files
 chmod 755 $INETD_CONF

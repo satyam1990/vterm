@@ -19,6 +19,7 @@
 #define DELETE 127
 #define ENTER '\n'
 #define CR '\r'
+#define EOT "\004"
 
 #include <sys/termios.h>
 #include <unistd.h>

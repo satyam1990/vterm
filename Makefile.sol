@@ -31,6 +31,7 @@ install:
 	cp ui/scripts/* wans/bin
 	cp alarm_initiator/alarmInitiator wans/bin
 	cp etc/mo.xml wans/etc
+	cp etc/wans_5000-tcp.xml.template wans/etc
 	mv wans/bin/launch_gui.sh wans
 	tar -cvf wans.tar wans
 	rm -rf wans

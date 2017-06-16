@@ -12,6 +12,13 @@
 
 #include "MMLProcessor.hh"
 
+// initialize the required stuff
+MMLProcessor::MMLProcessor(string mmlDir)
+{
+	// store mml directory path
+	mmlRespDir = mmlDir;
+}
+
 // returns response of MML command
 MMLResponse MMLProcessor::getResponse(string command)
 {
@@ -85,8 +92,43 @@ bool MMLProcessor::validateCommand(string command)
 MMLResponse MMLProcessor::processMML(string command)
 {
 	MMLResponse resp;
+
+	// make path to mml command response file
+	string path = mmlRespDir + "/" + command;
+
+	// get command response from file
+	string response = Helper::getFileContents(path);
+
+	// create delayed respose for delayed command
+	if (isDelayed(response))
+	{
+		resp.setDelayed(true);
+		resp.setDelayedOutput(response);
+
+		// create immediate part of delayed command
+		resp.setOutput("ORDERED");
+		resp.setPrompt(MML_PROMPT);
+	}
+	else
+	{
+		// else create immediate response
+		resp.setOutput(response);
+		resp.setPrompt(MML_PROMPT);
+	}
 	return resp;
 } 
+
+// check if response is delayed or not
+bool MMLProcessor::isDelayed(string & response)
+{
+	if (response.find("DELAYED") != string::npos)
+	{
+		response = response.substr(8);
+		return true;
+	}
+	
+	return false;
+}
 
 // gets the default MML prompt
 string MMLProcessor::getDefaultPrompt()

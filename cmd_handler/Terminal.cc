@@ -44,7 +44,7 @@ Terminal::Terminal(string conf)
 	aplocProcessor = new APLOCProcessor(xmlFile);
 
 	// init MMLProcessor
-	mmlProcessor = new MMLProcessor();
+	mmlProcessor = new MMLProcessor(mmlRespDir);
 
 }
 
@@ -58,7 +58,7 @@ Terminal::~Terminal()
 // logins the user to the NODE
 bool Terminal::login()
 {
-	string usercode, password;
+	string usercode, password, domain;
 
 	// Ask for USERCODE
 	cout << "USERCODE: ";
@@ -67,10 +67,10 @@ bool Terminal::login()
 	// clean up the string
 	Helper::stripSpace(usercode);
 
-	// Ask for password
+	// Ask for Password
 	cout << "Password: ";
 	getline(cin, password);
-	
+
 	// clean up the string
 	Helper::stripSpace(password);
 
@@ -199,9 +199,21 @@ void Terminal::processAndDisplay(MMLResponse resp)
 	// print output if available
 	if (resp.getOutput() != "")
 		cout << endl << resp.getOutput();
-
+	
 	// print the prompt
 	cout << endl << resp.getPrompt();
+	
+	fflush(stdout);
+
+	// send the delayed output also if it is a delayed command
+	if (resp.isDelayed())
+	{
+		sleep(5);
+		cout << endl << resp.getDelayedOutput();
+	
+		// print the prompt again
+		cout << endl << EOT << endl;
+	}
 }
 
 // processes response and displays output if any for APLOC commands

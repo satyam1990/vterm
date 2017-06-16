@@ -39,6 +39,7 @@ install:
 	cp alarm_initiator/$(BINDIR)/alarmInitiator wans/bin
 	cp etc/scripts/launch_gui.sh wans
 	cp etc/mo.xml wans/etc
+	cp etc/wans_5000-tcp.xml.template wans/etc
 	tar -cvf wans.tar wans
 	rm -rf wans
 	@echo -e "\nWANS Tarball Successfully prepared!"
